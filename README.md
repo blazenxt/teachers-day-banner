@@ -22,20 +22,25 @@ Premium ceremonial gold-and-black theme with:
 - Twinkling sparkles and rising golden dust particles
 - Gradient title, floating laurel, spinning jewel divider
 - Dashed halo rings around the icons, breathing date badge
+- **Auto-rotating scenes (~8s)**: hero title → Hindi/English Teacher's Day
+  quotes (Noto Devanagari, with progress dots) → a generic "Thank You
+  Teachers" finale (no personal names)
+- **Golden confetti** burst on tap and periodically (GPU-friendly)
+- **Live date/time clock** at the top
+- Fullscreen toggle button (bottom-right)
 - **Performance-tuned for low-end devices (2018 Android etc.)**: every looping
   animation uses only `transform` + `opacity` (GPU-composited). No
   `mix-blend-mode`, no per-frame `box-shadow` / `filter: blur` /
   `background-position` repaints; fewer particles on small screens.
 - Respects `prefers-reduced-motion`
 
-A candidate build can be previewed before going live under `/preview/1/`
-(banner) and `/preview/1/devices` (all-devices sheet); the root `/` is only
-updated after approval.
+Candidate builds are previewed before going live under `/preview/<n>/`
+(banner) and `/preview/<n>/devices` (all-devices sheet); the root `/` is only
+updated after approval. The live build is v3 (`/preview/3/`).
 
 All visuals are self-contained in `index.html` (CSS + a tiny vanilla-JS
-particle generator and fit scaler). No build step, no external media.
-
-A fullscreen toggle button sits at the bottom-right.
+particle generator, scene rotator, clock and confetti). No build step, no
+external media.
 
 ## Routes
 
