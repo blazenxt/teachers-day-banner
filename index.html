@@ -453,6 +453,190 @@
       }
       .script { font-size: clamp(1.4rem, 8vw, 2.2rem); }
     }
+
+    /* ========== MUSIC PLAYER ========== */
+    .music-dock {
+      position: fixed;
+      right: clamp(16px, 2.5vw, 28px);
+      bottom: clamp(16px, 2.5vh, 28px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px 10px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(30, 24, 10, 0.92), rgba(8, 6, 2, 0.95));
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.55),
+        0 0 24px rgba(212, 175, 55, 0.12),
+        inset 0 1px 0 rgba(255, 240, 180, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: 'Cinzel', Georgia, serif;
+      color: var(--gold-2, #f5e09a);
+      user-select: none;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .music-dock.playing {
+      border-color: rgba(232, 197, 71, 0.7);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.55),
+        0 0 36px rgba(212, 175, 55, 0.28),
+        inset 0 1px 0 rgba(255, 240, 180, 0.14);
+    }
+
+    .music-btn {
+      appearance: none;
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(160deg, #e8c547 0%, #c9a227 45%, #8a6a12 100%);
+      box-shadow:
+        0 2px 0 rgba(60, 40, 0, 0.5),
+        0 0 16px rgba(212, 175, 55, 0.35);
+      color: #1a1205;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .music-btn:hover { transform: scale(1.05); filter: brightness(1.08); }
+    .music-btn:active { transform: scale(0.97); }
+
+    .music-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .music-btn .icon-pause { display: none; }
+    .music-dock.playing .music-btn .icon-play { display: none; }
+    .music-dock.playing .music-btn .icon-pause { display: block; }
+
+    .music-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      padding-right: 6px;
+    }
+
+    .music-meta .label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(232, 197, 71, 0.65);
+      line-height: 1;
+    }
+
+    .music-meta .title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #f0d78c;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    /* Equalizer bars */
+    .eq {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 16px;
+      margin-left: 2px;
+      opacity: 0.35;
+    }
+    .music-dock.playing .eq { opacity: 1; }
+
+    .eq span {
+      width: 3px;
+      height: 4px;
+      border-radius: 1px;
+      background: linear-gradient(180deg, #fff3c4, #d4af37);
+      animation: none;
+    }
+    .music-dock.playing .eq span {
+      animation: eq-bounce 0.9s ease-in-out infinite;
+    }
+    .music-dock.playing .eq span:nth-child(1) { animation-delay: 0s; }
+    .music-dock.playing .eq span:nth-child(2) { animation-delay: 0.15s; }
+    .music-dock.playing .eq span:nth-child(3) { animation-delay: 0.3s; }
+    .music-dock.playing .eq span:nth-child(4) { animation-delay: 0.1s; }
+
+    @keyframes eq-bounce {
+      0%, 100% { height: 4px; }
+      50% { height: 16px; }
+    }
+
+    /* First-tap overlay for browsers that block autoplay */
+    .music-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .music-gate.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .music-gate-card {
+      text-align: center;
+      padding: 36px 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(201, 162, 39, 0.5);
+      background: linear-gradient(160deg, rgba(30, 24, 10, 0.95), rgba(8, 6, 2, 0.98));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(212, 175, 55, 0.15);
+      max-width: 90vw;
+    }
+    .music-gate-card p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem;
+      color: rgba(240, 215, 140, 0.85);
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+    }
+    .music-gate-card button {
+      appearance: none;
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      background: linear-gradient(180deg, #3a2f12, #1a1508);
+      color: #f0d78c;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+    }
+    .music-gate-card button svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 480px) {
+      .music-meta .title { font-size: 0.72rem; }
+      .music-dock { padding: 8px 12px 8px 8px; }
+      .music-btn { width: 42px; height: 42px; }
+    }
   </style>
 </head>
 <body>
@@ -650,6 +834,123 @@
         </svg>
       </div>
     </div>
+
+    <!-- Background song -->
+    <audio id="tdSong" loop preload="auto" playsinline>
+      <source src="/assets/audio/teachers-day-song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Floating music control -->
+    <div class="music-dock" id="musicDock" role="group" aria-label="Background music">
+      <button type="button" class="music-btn" id="musicToggle" aria-label="Play music">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      </button>
+      <div class="music-meta">
+        <span class="label">Now Playing</span>
+        <span class="title">Teacher's Day Melody</span>
+      </div>
+      <div class="eq" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Autoplay unlock (browsers block silent autoplay sometimes) -->
+    <div class="music-gate" id="musicGate" aria-hidden="true">
+      <div class="music-gate-card">
+        <p>Tap to start the Teacher's Day celebration song</p>
+        <button type="button" id="musicStart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Play Song
+        </button>
+      </div>
+    </div>
   </div>
+
+  <script>
+    (function () {
+      const audio = document.getElementById('tdSong');
+      const dock = document.getElementById('musicDock');
+      const toggle = document.getElementById('musicToggle');
+      const gate = document.getElementById('musicGate');
+      const startBtn = document.getElementById('musicStart');
+
+      if (!audio || !dock || !toggle) return;
+
+      audio.volume = 0.55;
+
+      function setPlaying(on) {
+        dock.classList.toggle('playing', on);
+        toggle.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
+      }
+
+      function play() {
+        const p = audio.play();
+        if (p && typeof p.then === 'function') {
+          return p.then(function () {
+            setPlaying(true);
+            hideGate();
+            return true;
+          }).catch(function () {
+            setPlaying(false);
+            return false;
+          });
+        }
+        setPlaying(!audio.paused);
+        return Promise.resolve(!audio.paused);
+      }
+
+      function pause() {
+        audio.pause();
+        setPlaying(false);
+      }
+
+      function hideGate() {
+        gate.classList.remove('show');
+        gate.setAttribute('aria-hidden', 'true');
+      }
+
+      function showGate() {
+        gate.classList.add('show');
+        gate.setAttribute('aria-hidden', 'false');
+      }
+
+      toggle.addEventListener('click', function () {
+        if (audio.paused) play();
+        else pause();
+      });
+
+      startBtn.addEventListener('click', function () {
+        play();
+      });
+
+      // Tap anywhere on gate to start
+      gate.addEventListener('click', function (e) {
+        if (e.target === gate) play();
+      });
+
+      audio.addEventListener('play', function () { setPlaying(true); });
+      audio.addEventListener('pause', function () { setPlaying(false); });
+      audio.addEventListener('ended', function () { setPlaying(false); });
+
+      // Try autoplay on load (works on many smart-board browsers / kiosk mode)
+      play().then(function (ok) {
+        if (!ok) {
+          // Soft retry on first user gesture anywhere
+          showGate();
+          const unlock = function () {
+            play().then(function (started) {
+              if (started) {
+                document.removeEventListener('pointerdown', unlock, true);
+                document.removeEventListener('keydown', unlock, true);
+              }
+            });
+          };
+          document.addEventListener('pointerdown', unlock, true);
+          document.addEventListener('keydown', unlock, true);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

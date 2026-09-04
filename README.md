@@ -1,31 +1,34 @@
 # Happy Teacher's Day Banner
 
-Pure HTML/CSS fullscreen banner for smart board / projector.
-Generated JPG banners available on the downloads page.
+Pure HTML/CSS fullscreen banner for smart board / projector,
+with background celebration music and JPG downloads.
 
 ## Live
 
-- Display: https://banner.blazenxt.in/
+- Display + song: https://banner.blazenxt.in/
 - Downloads: https://banner.blazenxt.in/api/downloads
 
 ## Routes
 
 | Path | What |
 |------|------|
-| `/` | Fullscreen CSS banner (smart board) |
+| `/` | Fullscreen CSS banner + Teacher's Day melody |
 | `/api/downloads` | Download horizontal + vertical JPG banners |
-| `/assets/banner-horizontal.jpg` | Horizontal image file |
-| `/assets/banner-vertical.jpg` | Vertical image file |
+| `/assets/banner-horizontal.jpg` | Horizontal image |
+| `/assets/banner-vertical.jpg` | Vertical image |
+| `/assets/audio/teachers-day-song.mp3` | Background song |
+
+## Music
+
+Royalty-free inspirational ambient track (Pixabay-style free use).
+Autoplay tries on load; if the browser blocks it, a gold “Play Song”
+prompt appears. Floating control (bottom-right) to play/pause.
 
 ## Local preview
 
 ```bash
 npx serve . -l 3000
 ```
-
-Then open:
-- http://localhost:3000/
-- http://localhost:3000/api/downloads
 
 ## Deploy
 
