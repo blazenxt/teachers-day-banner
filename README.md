@@ -13,10 +13,11 @@ with animated gold-on-black celebration visuals and JPG downloads.
 
 Premium ceremonial gold-and-black theme with:
 
-- **Fit-to-screen scaler** — content is authored at a fixed 1120px-wide design
-  and uniformly scaled in JS so it perfectly fills / fits ANY screen:
-  smart boards (16:9, 4:3, ultrawide), projectors and phones, in portrait or
-  landscape and in fullscreen. Text never clips and stays as large as possible.
+- **Fit-to-screen scaling** — every content size is expressed in a single CSS
+  unit `--u = min(vw, vh)` derived from a 1120×720 design. Pure CSS (no JS),
+  so the whole banner uniformly scales to perfectly fit ANY screen: smart
+  boards (16:9, 4:3, ultrawide), projectors and phones, portrait or landscape,
+  windowed or fullscreen. Text never clips and stays as large as possible.
 - Ambient aurora glow + slowly rotating light rays
 - Twinkling sparkles and rising golden dust particles
 - Shimmering gradient title, floating laurel, spinning jewel divider

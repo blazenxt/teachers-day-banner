@@ -18,6 +18,18 @@
       --gold-6: #a07818;
       --gold-7: #6e5210;
       --black: #000000;
+
+      /* One scaling unit = size of 1 "design pixel".
+         --u is the LARGEST uniform scale that fits a 1120 x 720 design
+         inside the viewport, bounded by BOTH width and height. This makes
+         the banner perfectly fit ANY screen / smart board (16:9, 4:3,
+         ultrawide, phone portrait or landscape) with no JavaScript and no
+         clipping. Pure CSS, so content can never disappear. */
+      --u: min(0.0840vw, 0.1300vh);
+    }
+    /* Use the real (dynamic) viewport on browsers that support it */
+    @supports (height: 100dvh) {
+      :root { --u: min(0.0840dvw, 0.1300dvh); }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,10 +44,10 @@
 
     /* ========== STAGE / VIEWPORT ========== */
     .banner {
-      width: 100vw;           /* fallback */
-      width: 100dvw;          /* real viewport on mobile / fullscreen */
-      height: 100vh;          /* fallback */
-      height: 100dvh;         /* real viewport on mobile / fullscreen */
+      width: 100vw;
+      width: 100dvw;
+      height: 100vh;
+      height: 100dvh;
       position: relative;
       display: grid;
       place-items: center;
@@ -44,15 +56,15 @@
         radial-gradient(ellipse 70% 55% at 50% 42%, #16100a 0%, #070500 48%, #000 100%);
     }
 
-    /* Soft vignette */
+    /* Soft vignette — kept BELOW the frame/content so it never hides text */
     .banner::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.6) 100%);
+        radial-gradient(ellipse 92% 86% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
       pointer-events: none;
-      z-index: 7;
+      z-index: 1;
     }
 
     /* ========== AURORA BLOBS ========== */
@@ -207,17 +219,16 @@
     /* ========== FRAME ========== */
     .frame {
       position: absolute;
-      inset: clamp(14px, 2.6vh, 28px) clamp(16px, 2.8vw, 36px);
+      inset: clamp(12px, 2.2vh, 26px) clamp(14px, 2.2vw, 34px);
       z-index: 5;
       pointer-events: none;
-      animation: frame-fade 1.6s ease both;
+      animation: fade-in 1.4s ease backwards;
     }
-    @keyframes frame-fade {
+    @keyframes fade-in {
       from { opacity: 0; }
       to   { opacity: 1; }
     }
 
-    /* Outer gold line */
     .frame-outer {
       position: absolute;
       inset: 0;
@@ -227,14 +238,12 @@
         inset 0 0 40px rgba(212, 175, 55, 0.03);
     }
 
-    /* Inner gold line */
     .frame-inner {
       position: absolute;
       inset: 7px;
       border: 1px solid rgba(212, 175, 55, 0.32);
     }
 
-    /* Mid-side diamond ticks */
     .tick {
       position: absolute;
       width: 8px;
@@ -254,11 +263,10 @@
       50%      { box-shadow: 0 0 14px rgba(255,220,120,0.8); }
     }
 
-    /* Ornate corners */
     .corner {
       position: absolute;
-      width: clamp(72px, 9vw, 110px);
-      height: clamp(72px, 9vw, 110px);
+      width: clamp(64px, 8vw, 104px);
+      height: clamp(64px, 8vw, 104px);
       z-index: 5;
     }
     .corner svg { width: 100%; height: 100%; display: block; overflow: visible; }
@@ -267,22 +275,13 @@
     .bl { bottom: -2px; left: -2px; transform: scaleY(-1); }
     .br { bottom: -2px; right: -2px; transform: scale(-1); }
 
-    /* ================================================================
-       SCALABLE STAGE — content is authored at a FIXED design size
-       (DESIGN_W × DESIGN_H) and JS scales it to best-fit ANY screen:
-       smart boards (16:9 / 4:3 / ultrawide), projectors, phones.
-       It scales UP on big boards and DOWN on small ones — always
-       centered, never clipped, fonts stay as large as possible.
-       ================================================================ */
+    /* ========== CONTENT (sized with the --u scaling unit) ========== */
     .stage {
       position: relative;
       z-index: 6;
-      width: 1120px;   /* fixed DESIGN width; height auto-fits the content */
-      height: auto;
       display: grid;
       place-items: center;
-      transform-origin: center center;
-      will-change: transform;
+      width: 100%;
     }
 
     .content {
@@ -292,10 +291,10 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      width: 1120px;
-      padding: 0 30px;
-      transform-origin: center center;
-      animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+      width: calc(1120 * var(--u));
+      max-width: 95vw;
+      padding: 0 calc(30 * var(--u));
+      animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
 
     @keyframes rise-in {
@@ -303,23 +302,23 @@
       to   { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
 
-    /* Small top label */
     .eyebrow {
       font-family: 'Cinzel', Georgia, serif;
       font-weight: 600;
-      font-size: 15px;
+      font-size: calc(15 * var(--u));
       letter-spacing: 0.42em;
       text-transform: uppercase;
-      color: rgba(232, 197, 71, 0.75);
-      margin-bottom: 20px;
+      color: rgba(232, 197, 71, 0.85);
+      margin-bottom: calc(20 * var(--u));
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: calc(16 * var(--u));
+      white-space: nowrap;
     }
     .eyebrow::before,
     .eyebrow::after {
       content: "";
-      width: 52px;
+      width: calc(52 * var(--u));
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold-5));
     }
@@ -327,31 +326,29 @@
       background: linear-gradient(90deg, var(--gold-5), transparent);
     }
 
-    /* Laurel */
     .laurel {
-      width: 112px;
+      width: calc(112 * var(--u));
       height: auto;
-      margin-bottom: 14px;
+      margin-bottom: calc(14 * var(--u));
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.45));
       animation: float-soft 6s ease-in-out infinite, laurel-glow 4s ease-in-out infinite;
     }
 
     @keyframes float-soft {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(calc(-5 * var(--u))); }
     }
     @keyframes laurel-glow {
       0%, 100% { filter: drop-shadow(0 0 10px rgba(212,175,55,0.35)); }
       50%      { filter: drop-shadow(0 0 20px rgba(255,220,120,0.6)); }
     }
 
-    /* Title */
     h1 {
       font-family: 'Cinzel', 'Times New Roman', Georgia, serif;
       font-weight: 900;
-      font-size: 64px;
+      font-size: calc(64 * var(--u));
       letter-spacing: 0.085em;
-      line-height: 1.02;
+      line-height: 1.05;
       text-transform: uppercase;
       margin: 0;
       white-space: nowrap;
@@ -373,7 +370,6 @@
       filter:
         drop-shadow(0 2px 0 rgba(60, 40, 0, 0.55))
         drop-shadow(0 0 28px rgba(212, 175, 55, 0.35));
-      position: relative;
       animation: title-sheen 6s ease-in-out infinite;
     }
 
@@ -382,13 +378,12 @@
       50%      { background-position: 50% 100%; }
     }
 
-    /* Script */
     .script {
       font-family: 'Great Vibes', 'Segoe Script', cursive;
-      font-size: 54px;
+      font-size: calc(54 * var(--u));
       font-weight: 400;
-      line-height: 1.05;
-      margin-top: 8px;
+      line-height: 1.1;
+      margin-top: calc(8 * var(--u));
       background: linear-gradient(180deg, #fff3c4 0%, #e8c547 48%, #b8922a 100%);
       background-size: 100% 200%;
       -webkit-background-clip: text;
@@ -399,14 +394,13 @@
       animation: title-sheen 7s ease-in-out infinite;
     }
 
-    /* Ornamental divider */
     .divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      width: 300px;
-      margin: 22px 0;
+      gap: calc(12 * var(--u));
+      width: calc(300 * var(--u));
+      margin: calc(22 * var(--u)) 0;
     }
     .divider .line {
       flex: 1;
@@ -415,8 +409,8 @@
     }
     .divider .jewel {
       position: relative;
-      width: 10px;
-      height: 10px;
+      width: calc(11 * var(--u));
+      height: calc(11 * var(--u));
       flex-shrink: 0;
       animation: jewel-spin 5s linear infinite;
     }
@@ -431,7 +425,7 @@
     .divider .jewel::after {
       content: "";
       position: absolute;
-      inset: 3px;
+      inset: calc(3 * var(--u));
       background: #1a1408;
       transform: rotate(45deg);
     }
@@ -440,45 +434,44 @@
       50%      { transform: rotate(180deg) scale(1.15); }
     }
 
-    /* Subtitles */
     .lines {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 500;
-      font-size: 25px;
+      font-size: calc(25 * var(--u));
       letter-spacing: 0.06em;
-      line-height: 1.55;
-      color: #e6cb72;
-      text-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
+      line-height: 1.5;
+      color: #f0d78c;
+      text-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+      white-space: nowrap;
     }
     .lines .primary {
       display: block;
       font-weight: 600;
       font-size: 1.08em;
-      color: #f0d78c;
+      color: #f7e3a0;
       letter-spacing: 0.08em;
     }
     .lines .secondary {
       display: block;
       font-style: italic;
-      opacity: 0.88;
+      opacity: 0.92;
       font-size: 0.95em;
       letter-spacing: 0.05em;
       color: #d4b85a;
     }
 
-    /* Icons */
     .icons {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 64px;
-      margin: 28px 0;
+      gap: calc(64 * var(--u));
+      margin: calc(26 * var(--u)) 0;
     }
 
     .icon-wrap {
       position: relative;
-      width: 74px;
-      height: 74px;
+      width: calc(74 * var(--u));
+      height: calc(74 * var(--u));
       display: grid;
       place-items: center;
       border-radius: 50%;
@@ -489,43 +482,34 @@
       box-shadow:
         0 0 0 1px rgba(201, 162, 39, 0.22),
         0 0 20px rgba(212, 175, 55, 0.1);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
       animation: icon-in 0.9s ease backwards;
     }
     .icon-wrap:nth-child(1) { animation-delay: 0.45s; }
     .icon-wrap:nth-child(2) { animation-delay: 0.6s; }
     .icon-wrap:nth-child(3) { animation-delay: 0.75s; }
 
-    /* Rotating dashed halo ring */
     .icon-wrap::before {
       content: "";
       position: absolute;
-      inset: -9px;
+      inset: calc(-9 * var(--u));
       border-radius: 50%;
-      border: 1px dashed rgba(212, 175, 55, 0.35);
+      border: calc(1.6 * var(--u)) dashed rgba(212, 175, 55, 0.35);
       animation: halo-spin 14s linear infinite;
     }
     .icon-wrap::after {
       content: "";
       position: absolute;
-      inset: -15px;
+      inset: calc(-16 * var(--u));
       border-radius: 50%;
-      border: 1px solid rgba(232, 197, 71, 0.1);
-    }
-    .icon-wrap:hover {
-      transform: translateY(-4px) scale(1.06);
-      box-shadow:
-        0 0 0 1px rgba(232, 197, 71, 0.5),
-        0 0 30px rgba(212, 175, 55, 0.28);
+      border: calc(1.6 * var(--u)) solid rgba(232, 197, 71, 0.1);
     }
 
     @keyframes halo-spin {
       to { transform: rotate(360deg); }
     }
-
     @keyframes icon-in {
-      from { opacity: 0; transform: translateY(12px) scale(0.9); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .icon-wrap svg {
@@ -545,13 +529,12 @@
       stroke: none;
     }
 
-    /* Date badge */
     .date-badge {
       display: inline-flex;
       align-items: center;
-      gap: 20px;
-      padding: 12px 36px;
-      border: 1px solid rgba(201, 162, 39, 0.45);
+      gap: calc(20 * var(--u));
+      padding: calc(12 * var(--u)) calc(36 * var(--u));
+      border: calc(1.6 * var(--u)) solid rgba(201, 162, 39, 0.45);
       border-radius: 999px;
       background: linear-gradient(180deg,
         rgba(212, 175, 55, 0.1) 0%,
@@ -561,11 +544,12 @@
         inset 0 1px 0 rgba(255, 240, 180, 0.12);
       font-family: 'Cinzel', Georgia, serif;
       font-weight: 700;
-      font-size: 23px;
+      font-size: calc(23 * var(--u));
       letter-spacing: 0.18em;
       color: #f0d78c;
       text-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
-      margin-top: 10px;
+      margin-top: calc(10 * var(--u));
+      white-space: nowrap;
       animation: badge-pulse 3.4s ease-in-out infinite;
     }
     @keyframes badge-pulse {
@@ -586,24 +570,23 @@
       text-shadow: 0 0 8px rgba(255, 220, 120, 0.85);
     }
 
-    /* Bottom flourish */
     .bottom-mark {
-      margin-top: 22px;
-      width: 160px;
-      height: 14px;
+      margin-top: calc(22 * var(--u));
+      width: calc(160 * var(--u));
+      height: calc(14 * var(--u));
       position: relative;
       opacity: 0.9;
     }
     .bottom-mark svg { width: 100%; height: 100%; }
 
     .signoff {
-      margin-top: 18px;
+      margin-top: calc(18 * var(--u));
       font-family: 'Great Vibes', cursive;
-      font-size: 28px;
-      color: rgba(232, 197, 71, 0.7);
+      font-size: calc(28 * var(--u));
+      color: rgba(232, 197, 71, 0.85);
       letter-spacing: 0.04em;
-      text-shadow: 0 0 12px rgba(212,175,55,0.25);
-      animation: fade-down 1s ease 1s both;
+      text-shadow: 0 0 12px rgba(212,175,55,0.3);
+      animation: fade-down 1s ease 0.9s backwards;
     }
     @keyframes fade-down {
       from { opacity: 0; transform: translateY(-10px); }
@@ -780,10 +763,10 @@
       </div>
     </div>
 
-    <!-- Scalable stage: content authored at fixed 1120×660, JS scales to fit -->
+    <!-- Content (scales purely in CSS via the --u unit) -->
     <div class="stage" id="stage">
       <div class="content">
-        <!-- SVG defs for icon gradients (must be in DOM once) -->
+        <!-- SVG defs for icon gradients -->
         <svg width="0" height="0" style="position:absolute" aria-hidden="true">
           <defs>
             <linearGradient id="iconStroke" x1="0" y1="0" x2="0" y2="1">
@@ -895,7 +878,7 @@
 
   <script>
     (function () {
-      // Generate rising golden dust particles (purely decorative, no audio)
+      // Generate rising golden dust particles (purely decorative)
       var layer = document.getElementById('sparkles');
       if (layer) {
         var reduceMotion = window.matchMedia &&
@@ -917,52 +900,6 @@
         }
       }
 
-      // ===== Fit-to-screen scaler =====
-      // Content is authored at a fixed DESIGN size; scale it uniformly so the
-      // whole banner perfectly fits ANY screen (smart board / projector /
-      // phone, any aspect ratio). It grows on big boards, shrinks on small
-      // ones, always centered and never clipped.
-      var stage = document.getElementById('stage');
-      var DESIGN_W = 1120;
-      var MARGIN = 84; // keep clear of the decorative frame / edges
-
-      function fitStage() {
-        if (!stage) return;
-        // Measure the natural (unscaled) design size first.
-        stage.style.transform = 'none';
-        var natW = stage.offsetWidth  || DESIGN_W;
-        var natH = stage.offsetHeight || 660;
-        stage.style.transform = '';
-
-        var w = window.innerWidth  || document.documentElement.clientWidth;
-        var h = window.innerHeight || document.documentElement.clientHeight;
-        var availW = Math.max(w - MARGIN, 160);
-        var availH = Math.max(h - MARGIN, 120);
-        var scale = Math.min(availW / natW, availH / natH);
-        if (!isFinite(scale) || scale <= 0) scale = 1;
-        stage.style.transform = 'scale(' + scale.toFixed(4) + ')';
-      }
-
-      var fitTimer = null;
-      function scheduleFit() {
-        clearTimeout(fitTimer);
-        fitTimer = setTimeout(fitStage, 60);
-      }
-
-      window.addEventListener('resize', scheduleFit);
-      window.addEventListener('orientationchange', scheduleFit);
-      document.addEventListener('fullscreenchange', scheduleFit);
-      document.addEventListener('webkitfullscreenchange', scheduleFit);
-      window.addEventListener('load', scheduleFit);
-
-      fitStage();
-      setTimeout(fitStage, 120);
-      setTimeout(fitStage, 500);
-      setTimeout(fitStage, 1200);
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function () { scheduleFit(); });
-      }
-
       // ===== Fullscreen toggle =====
       var fsBtn = document.getElementById('fsBtn');
       if (fsBtn) {
@@ -973,21 +910,18 @@
           return !!(doc.fullscreenElement || doc.webkitFullscreenElement ||
                     doc.msFullscreenElement);
         }
-
         function enterFs() {
           if (root.requestFullscreen) return root.requestFullscreen();
           if (root.webkitRequestFullscreen) return root.webkitRequestFullscreen();
           if (root.msRequestFullscreen) return root.msRequestFullscreen();
           return Promise.reject(new Error('unsupported'));
         }
-
         function exitFs() {
           if (doc.exitFullscreen) return doc.exitFullscreen();
           if (doc.webkitExitFullscreen) return doc.webkitExitFullscreen();
           if (doc.msExitFullscreen) return doc.msExitFullscreen();
           return Promise.reject(new Error('unsupported'));
         }
-
         function syncBtn() {
           var on = isFullscreen();
           fsBtn.classList.toggle('is-full', on);
@@ -1008,7 +942,6 @@
         doc.addEventListener('webkitfullscreenchange', syncBtn);
         doc.addEventListener('msfullscreenchange', syncBtn);
 
-        // Hide the button where the Fullscreen API is unavailable (rare / iframes)
         var supported = root.requestFullscreen || root.webkitRequestFullscreen ||
                         root.msRequestFullscreen;
         if (!supported) fsBtn.style.display = 'none';
