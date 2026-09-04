@@ -5,376 +5,585 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Teacher's Day | Celebrations</title>
   <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&display=swap');
+    :root {
+      --gold-1: #fff8d0;
+      --gold-2: #f5e09a;
+      --gold-3: #e8c547;
+      --gold-4: #d4af37;
+      --gold-5: #c9a227;
+      --gold-6: #a07818;
+      --gold-7: #6e5210;
+      --black: #000000;
+    }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
       height: 100%;
-      background: #000;
+      background: var(--black);
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ========== STAGE ========== */
     .banner {
       width: 100vw;
       height: 100vh;
-      background: #000;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
       overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #16100a 0%, #070500 48%, #000 100%);
     }
 
-    /* ===== OUTER ORNATE FRAME ===== */
-    .ornate-border {
-      position: absolute;
-      inset: 2.8%;
-      border: 1.5px solid #c9a227;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    /* Inner thin line */
-    .ornate-border::before {
+    /* Soft vignette */
+    .banner::before {
       content: "";
       position: absolute;
-      inset: 5px;
-      border: 1px solid rgba(201, 162, 39, 0.35);
-    }
-
-    /* Corner flourishes — pure CSS/SVG via background */
-    .corner {
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      z-index: 3;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
       pointer-events: none;
+      z-index: 1;
     }
-    .corner svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-    .tl { top: 2.2%; left: 2.2%; }
-    .tr { top: 2.2%; right: 2.2%; transform: scaleX(-1); }
-    .bl { bottom: 2.2%; left: 2.2%; transform: scaleY(-1); }
-    .br { bottom: 2.2%; right: 2.2%; transform: scale(-1); }
+    /* Ambient gold glow behind content */
+    .glow {
+      position: absolute;
+      width: min(70vw, 900px);
+      height: min(55vh, 520px);
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center,
+        rgba(212, 175, 55, 0.16) 0%,
+        rgba(212, 175, 55, 0.06) 35%,
+        transparent 70%);
+      filter: blur(8px);
+      pointer-events: none;
+      z-index: 1;
+      animation: pulse-glow 5s ease-in-out infinite;
+    }
 
-    /* ===== SPARKLES (subtle, sides only like the image) ===== */
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+    }
+
+    /* ========== SPARKLES ========== */
     .sparkles {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 1;
-      background-image:
-        /* left cluster */
-        radial-gradient(circle 1.2px at 4% 22%, #ffd86b 100%, transparent 100%),
-        radial-gradient(circle 1.8px at 6.5% 38%, #f0d78c 100%, transparent 100%),
-        radial-gradient(circle 1px at 3.5% 55%, #d4af37 100%, transparent 100%),
-        radial-gradient(circle 1.5px at 7% 68%, #ffe9a0 100%, transparent 100%),
-        radial-gradient(circle 1px at 5% 80%, #c9a227 100%, transparent 100%),
-        radial-gradient(circle 2px at 8% 28%, #fff3c4 100%, transparent 100%),
-        radial-gradient(circle 1px at 9% 48%, #d4af37 100%, transparent 100%),
-        radial-gradient(circle 1.3px at 4.5% 12%, #f0d78c 100%, transparent 100%),
-        /* right cluster */
-        radial-gradient(circle 1.5px at 96% 20%, #ffd86b 100%, transparent 100%),
-        radial-gradient(circle 1.2px at 93.5% 35%, #f0d78c 100%, transparent 100%),
-        radial-gradient(circle 2px at 97% 50%, #ffe9a0 100%, transparent 100%),
-        radial-gradient(circle 1px at 94% 62%, #d4af37 100%, transparent 100%),
-        radial-gradient(circle 1.6px at 96.5% 74%, #fff3c4 100%, transparent 100%),
-        radial-gradient(circle 1px at 92.5% 85%, #c9a227 100%, transparent 100%),
-        radial-gradient(circle 1.4px at 95% 28%, #f0d78c 100%, transparent 100%),
-        radial-gradient(circle 1.1px at 98% 42%, #d4af37 100%, transparent 100%),
-        /* soft dust near corners */
-        radial-gradient(circle 1px at 12% 10%, rgba(240,215,140,0.7) 100%, transparent 100%),
-        radial-gradient(circle 1px at 88% 12%, rgba(240,215,140,0.7) 100%, transparent 100%),
-        radial-gradient(circle 1px at 11% 90%, rgba(212,175,55,0.6) 100%, transparent 100%),
-        radial-gradient(circle 1px at 89% 88%, rgba(212,175,55,0.6) 100%, transparent 100%);
-      opacity: 0.9;
+      z-index: 2;
+      overflow: hidden;
     }
 
-    /* 4-point star accents */
-    .star {
+    .spark {
       position: absolute;
-      color: #e8c547;
-      font-size: 11px;
-      z-index: 1;
-      text-shadow: 0 0 6px rgba(255, 220, 100, 0.8);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gold-2);
+      box-shadow: 0 0 6px 1px rgba(255, 220, 120, 0.85);
+      animation: twinkle var(--d, 3s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: 0.3;
+    }
+
+    .spark.cross {
+      width: 0;
+      height: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      color: var(--gold-3);
+      font-size: var(--sz, 12px);
+      text-shadow: 0 0 8px rgba(255, 220, 100, 0.9);
       line-height: 1;
+    }
+    .spark.cross::before { content: "✦"; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.7); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    /* ========== FRAME ========== */
+    .frame {
+      position: absolute;
+      inset: clamp(14px, 2.6vh, 28px) clamp(16px, 2.8vw, 36px);
+      z-index: 3;
       pointer-events: none;
     }
-    .s1 { top: 18%; left: 5.5%; font-size: 13px; }
-    .s2 { top: 42%; left: 3.8%; font-size: 9px; opacity: 0.75; }
-    .s3 { top: 70%; left: 6.5%; font-size: 12px; }
-    .s4 { top: 25%; right: 5%; font-size: 14px; }
-    .s5 { top: 55%; right: 3.5%; font-size: 9px; opacity: 0.75; }
-    .s6 { top: 78%; right: 6%; font-size: 11px; }
 
-    /* ===== CONTENT ===== */
+    /* Outer gold line */
+    .frame-outer {
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid rgba(201, 162, 39, 0.85);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(212, 175, 55, 0.03);
+    }
+
+    /* Inner gold line */
+    .frame-inner {
+      position: absolute;
+      inset: 7px;
+      border: 1px solid rgba(212, 175, 55, 0.32);
+    }
+
+    /* Mid-side diamond ticks */
+    .tick {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold-5));
+      transform: rotate(45deg);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.55);
+      z-index: 4;
+    }
+    .tick.top { top: -4px; left: 50%; margin-left: -4px; }
+    .tick.bottom { bottom: -4px; left: 50%; margin-left: -4px; }
+    .tick.left { left: -4px; top: 50%; margin-top: -4px; }
+    .tick.right { right: -4px; top: 50%; margin-top: -4px; }
+
+    /* Ornate corners */
+    .corner {
+      position: absolute;
+      width: clamp(72px, 9vw, 110px);
+      height: clamp(72px, 9vw, 110px);
+      z-index: 5;
+    }
+    .corner svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .tl { top: -2px; left: -2px; }
+    .tr { top: -2px; right: -2px; transform: scaleX(-1); }
+    .bl { bottom: -2px; left: -2px; transform: scaleY(-1); }
+    .br { bottom: -2px; right: -2px; transform: scale(-1); }
+
+    /* ========== CONTENT ========== */
     .content {
       position: relative;
-      z-index: 4;
+      z-index: 6;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 8%;
-      gap: 0;
+      width: min(92vw, 1080px);
+      padding: clamp(20px, 4vh, 48px) clamp(16px, 3vw, 40px);
+      animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    /* Laurel wreath */
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    /* Small top label */
+    .eyebrow {
+      font-family: 'Cinzel', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(0.65rem, 1.1vw, 0.85rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(232, 197, 71, 0.75);
+      margin-bottom: clamp(10px, 1.6vh, 18px);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: clamp(28px, 4vw, 52px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-5));
+    }
+    .eyebrow::after {
+      background: linear-gradient(90deg, var(--gold-5), transparent);
+    }
+
+    /* Laurel */
     .laurel {
-      width: clamp(70px, 8vw, 105px);
+      width: clamp(78px, 9vw, 118px);
       height: auto;
-      margin-bottom: clamp(10px, 1.8vh, 22px);
-      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+      margin-bottom: clamp(8px, 1.4vh, 16px);
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.45));
+      animation: float-soft 6s ease-in-out infinite;
     }
 
-    /* Main title */
+    @keyframes float-soft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Title */
     h1 {
       font-family: 'Cinzel', 'Times New Roman', Georgia, serif;
-      font-weight: 700;
-      font-size: clamp(1.7rem, 5.5vw, 4.4rem);
-      letter-spacing: 0.08em;
-      line-height: 1;
+      font-weight: 800;
+      font-size: clamp(1.55rem, 5.4vw, 4.35rem);
+      letter-spacing: 0.085em;
+      line-height: 1.02;
       text-transform: uppercase;
       margin: 0;
       white-space: nowrap;
       background: linear-gradient(
-        180deg,
-        #fff8d6 0%,
-        #f5e09a 18%,
-        #e8c547 42%,
-        #c9a227 68%,
-        #a07818 88%,
-        #c9a227 100%
+        175deg,
+        #fffef5 0%,
+        #fff8d0 8%,
+        #f5e09a 22%,
+        #e8c547 40%,
+        #d4af37 55%,
+        #a07818 78%,
+        #d4af37 92%,
+        #f0d78c 100%
       );
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       filter:
-        drop-shadow(0 1px 0 rgba(80, 55, 0, 0.5))
-        drop-shadow(0 0 20px rgba(212, 175, 55, 0.28));
+        drop-shadow(0 2px 0 rgba(60, 40, 0, 0.55))
+        drop-shadow(0 0 28px rgba(212, 175, 55, 0.35));
+      position: relative;
     }
 
-    /* Script "Celebrations" */
+    /* Script */
     .script {
       font-family: 'Great Vibes', 'Segoe Script', cursive;
-      font-size: clamp(1.6rem, 4vw, 3.1rem);
+      font-size: clamp(1.7rem, 4.2vw, 3.35rem);
       font-weight: 400;
-      line-height: 1;
-      margin-top: clamp(2px, 0.5vh, 6px);
-      margin-bottom: 0;
-      background: linear-gradient(180deg, #fff0b8 0%, #e0b83a 50%, #b8922a 100%);
+      line-height: 1.05;
+      margin-top: clamp(4px, 0.8vh, 10px);
+      background: linear-gradient(180deg, #fff3c4 0%, #e8c547 48%, #b8922a 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.25));
-      letter-spacing: 0.02em;
+      filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.3));
+      letter-spacing: 0.03em;
     }
 
-    /* Divider with diamond */
+    /* Ornamental divider */
     .divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      width: clamp(140px, 22vw, 260px);
-      margin: clamp(10px, 1.6vh, 18px) 0;
+      gap: 12px;
+      width: clamp(160px, 26vw, 300px);
+      margin: clamp(12px, 2vh, 22px) 0;
     }
     .divider .line {
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, #c9a227 30%, #e8c547 50%, #c9a227 70%, transparent);
+      background: linear-gradient(90deg, transparent, var(--gold-5) 20%, var(--gold-3) 50%, var(--gold-5) 80%, transparent);
     }
-    .divider .dia {
-      width: 7px;
-      height: 7px;
-      background: linear-gradient(135deg, #f0d78c, #c9a227);
-      transform: rotate(45deg);
-      box-shadow: 0 0 6px rgba(212, 175, 55, 0.7);
+    .divider .jewel {
+      position: relative;
+      width: 10px;
+      height: 10px;
       flex-shrink: 0;
+    }
+    .divider .jewel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-5));
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.75);
+    }
+    .divider .jewel::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      background: #1a1408;
+      transform: rotate(45deg);
     }
 
     /* Subtitles */
     .lines {
-      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 500;
-      font-size: clamp(0.95rem, 1.9vw, 1.45rem);
-      letter-spacing: 0.04em;
-      line-height: 1.55;
-      color: #e0c56a;
-      text-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+      font-size: clamp(1rem, 2vw, 1.55rem);
+      letter-spacing: 0.06em;
+      line-height: 1.65;
+      color: #e6cb72;
+      text-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
     }
-    .lines span {
+    .lines .primary {
       display: block;
+      font-weight: 600;
+      font-size: 1.08em;
+      color: #f0d78c;
+      letter-spacing: 0.08em;
+    }
+    .lines .secondary {
+      display: block;
+      font-style: italic;
+      opacity: 0.88;
+      font-size: 0.95em;
+      letter-spacing: 0.05em;
+      color: #d4b85a;
     }
 
-    /* Icons row */
+    /* Icons */
     .icons {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(36px, 5.5vw, 72px);
-      margin: clamp(16px, 2.6vh, 30px) 0 clamp(14px, 2.2vh, 26px);
+      gap: clamp(28px, 5vw, 68px);
+      margin: clamp(18px, 2.8vh, 32px) 0;
     }
-    .icons svg {
-      width: clamp(38px, 4.5vw, 58px);
-      height: clamp(38px, 4.5vw, 58px);
-      stroke: #d4af37;
+
+    .icon-wrap {
+      position: relative;
+      width: clamp(52px, 5.5vw, 72px);
+      height: clamp(52px, 5.5vw, 72px);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%,
+        rgba(212, 175, 55, 0.12) 0%,
+        rgba(212, 175, 55, 0.03) 55%,
+        transparent 70%);
+      box-shadow:
+        0 0 0 1px rgba(201, 162, 39, 0.22),
+        0 0 20px rgba(212, 175, 55, 0.1);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      animation: icon-in 0.9s ease backwards;
+    }
+    .icon-wrap:nth-child(1) { animation-delay: 0.35s; }
+    .icon-wrap:nth-child(2) { animation-delay: 0.5s; }
+    .icon-wrap:nth-child(3) { animation-delay: 0.65s; }
+
+    @keyframes icon-in {
+      from { opacity: 0; transform: translateY(12px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .icon-wrap svg {
+      width: 58%;
+      height: 58%;
+      stroke: url(#iconStroke);
       fill: none;
-      stroke-width: 1.5;
+      stroke-width: 1.6;
       stroke-linecap: round;
       stroke-linejoin: round;
-      filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
+      filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
     }
-    .icons svg .fill-gold {
-      fill: #d4af37;
+    .icon-wrap svg .fg {
+      fill: url(#iconFill);
       stroke: none;
     }
 
-    /* Date */
-    .date-row {
-      display: flex;
+    /* Date badge */
+    .date-badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: clamp(14px, 2vw, 22px);
+      gap: clamp(12px, 1.8vw, 20px);
+      padding: clamp(8px, 1.2vh, 12px) clamp(22px, 3vw, 36px);
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      border-radius: 999px;
+      background: linear-gradient(180deg,
+        rgba(212, 175, 55, 0.1) 0%,
+        rgba(0, 0, 0, 0.25) 100%);
+      box-shadow:
+        0 0 24px rgba(212, 175, 55, 0.12),
+        inset 0 1px 0 rgba(255, 240, 180, 0.12);
       font-family: 'Cinzel', Georgia, serif;
-      font-weight: 600;
-      font-size: clamp(1rem, 2.1vw, 1.55rem);
-      letter-spacing: 0.14em;
-      color: #e8c547;
-      text-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
-    }
-    .date-row .spark {
-      font-size: 0.75em;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2vw, 1.45rem);
+      letter-spacing: 0.18em;
       color: #f0d78c;
-      text-shadow: 0 0 8px rgba(255, 220, 120, 0.9);
+      text-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+      margin-top: clamp(4px, 0.8vh, 10px);
+    }
+    .date-badge .spark {
+      position: static;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      animation: none;
+      opacity: 1;
+      font-size: 0.7em;
+      color: var(--gold-3);
+      text-shadow: 0 0 8px rgba(255, 220, 120, 0.85);
     }
 
-    /* Bottom tiny ornament line */
-    .bottom-orn {
-      margin-top: clamp(10px, 1.5vh, 16px);
-      width: clamp(80px, 12vw, 140px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #c9a227, transparent);
+    /* Bottom flourish */
+    .bottom-mark {
+      margin-top: clamp(14px, 2vh, 22px);
+      width: clamp(100px, 14vw, 160px);
+      height: 14px;
       position: relative;
+      opacity: 0.9;
     }
-    .bottom-orn::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 5px;
-      height: 5px;
-      background: #d4af37;
-      transform: translate(-50%, -50%) rotate(45deg);
-      box-shadow: 0 0 5px rgba(212, 175, 55, 0.6);
-    }
+    .bottom-mark svg { width: 100%; height: 100%; }
 
-    /* Ultra-wide boards */
+    /* Ultra-wide smart boards */
     @media (min-aspect-ratio: 21/9) {
-      h1 { font-size: clamp(2rem, 4.5vw, 3.8rem); }
-      .content { max-width: 1300px; }
+      h1 { font-size: clamp(1.8rem, 4.2vw, 3.6rem); }
+      .content { width: min(80vw, 1200px); }
     }
 
-    /* Slightly shorter height */
-    @media (max-height: 600px) {
-      .laurel { width: 55px; margin-bottom: 6px; }
-      .icons { margin: 10px 0 8px; gap: 28px; }
-      .icons svg { width: 32px; height: 32px; }
-      .divider { margin: 6px 0; }
+    @media (max-height: 560px) {
+      .eyebrow { margin-bottom: 6px; letter-spacing: 0.3em; }
+      .laurel { width: 58px; margin-bottom: 4px; }
+      .icons { margin: 10px 0; gap: 20px; }
+      .icon-wrap { width: 44px; height: 44px; }
+      .divider { margin: 8px 0; }
+      .date-badge { padding: 6px 18px; }
+      .bottom-mark { margin-top: 8px; }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        white-space: normal;
+        font-size: clamp(1.35rem, 7.5vw, 2rem);
+        letter-spacing: 0.06em;
+        max-width: 14ch;
+      }
+      .script { font-size: clamp(1.4rem, 8vw, 2.2rem); }
     }
   </style>
 </head>
 <body>
   <div class="banner">
+    <div class="glow" aria-hidden="true"></div>
 
-    <!-- Sparkle dust -->
-    <div class="sparkles" aria-hidden="true"></div>
-    <span class="star s1" aria-hidden="true">✦</span>
-    <span class="star s2" aria-hidden="true">✧</span>
-    <span class="star s3" aria-hidden="true">✦</span>
-    <span class="star s4" aria-hidden="true">✦</span>
-    <span class="star s5" aria-hidden="true">✧</span>
-    <span class="star s6" aria-hidden="true">✦</span>
+    <!-- Animated sparkles -->
+    <div class="sparkles" aria-hidden="true">
+      <span class="spark" style="left:4%;top:18%;--delay:0s;--d:3.2s"></span>
+      <span class="spark" style="left:7%;top:36%;--delay:0.4s;--d:2.8s"></span>
+      <span class="spark" style="left:3.5%;top:58%;--delay:1s;--d:3.5s"></span>
+      <span class="spark" style="left:8%;top:74%;--delay:0.7s;--d:2.6s"></span>
+      <span class="spark" style="left:5.5%;top:48%;--delay:1.4s;--d:3s"></span>
+      <span class="spark" style="left:95%;top:20%;--delay:0.2s;--d:3.1s"></span>
+      <span class="spark" style="left:92.5%;top:40%;--delay:0.9s;--d:2.7s"></span>
+      <span class="spark" style="left:96.5%;top:55%;--delay:0.5s;--d:3.4s"></span>
+      <span class="spark" style="left:93%;top:72%;--delay:1.2s;--d:2.9s"></span>
+      <span class="spark" style="left:97%;top:32%;--delay:1.6s;--d:3.3s"></span>
+      <span class="spark" style="left:12%;top:12%;--delay:0.3s;--d:2.5s"></span>
+      <span class="spark" style="left:88%;top:14%;--delay:0.8s;--d:2.8s"></span>
+      <span class="spark" style="left:14%;top:88%;--delay:1.1s;--d:3s"></span>
+      <span class="spark" style="left:86%;top:86%;--delay:0.6s;--d:2.6s"></span>
+      <span class="spark cross" style="left:5%;top:28%;--delay:0s;--d:4s;--sz:13px"></span>
+      <span class="spark cross" style="left:94%;top:26%;--delay:1s;--d:3.6s;--sz:15px"></span>
+      <span class="spark cross" style="left:6.5%;top:66%;--delay:0.5s;--d:4.2s;--sz:11px"></span>
+      <span class="spark cross" style="left:93.5%;top:64%;--delay:1.5s;--d:3.8s;--sz:12px"></span>
+      <span class="spark cross" style="left:10%;top:82%;--delay:0.8s;--d:4.5s;--sz:10px"></span>
+      <span class="spark cross" style="left:90%;top:80%;--delay:1.3s;--d:4s;--sz:11px"></span>
+    </div>
 
     <!-- Frame -->
-    <div class="ornate-border" aria-hidden="true"></div>
+    <div class="frame" aria-hidden="true">
+      <div class="frame-outer"></div>
+      <div class="frame-inner"></div>
+      <span class="tick top"></span>
+      <span class="tick bottom"></span>
+      <span class="tick left"></span>
+      <span class="tick right"></span>
 
-    <!-- Corners -->
-    <div class="corner tl" aria-hidden="true">
-      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
-        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
-        <!-- scroll curl -->
-        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
-              stroke="#d4af37" stroke-width="1.6" fill="none"/>
-        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
-        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
-        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
-      </svg>
-    </div>
-    <div class="corner tr" aria-hidden="true">
-      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
-        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
-        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
-              stroke="#d4af37" stroke-width="1.6" fill="none"/>
-        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
-        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
-        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
-      </svg>
-    </div>
-    <div class="corner bl" aria-hidden="true">
-      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
-        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
-        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
-              stroke="#d4af37" stroke-width="1.6" fill="none"/>
-        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
-        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
-        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
-      </svg>
-    </div>
-    <div class="corner br" aria-hidden="true">
-      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
-        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
-        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
-              stroke="#d4af37" stroke-width="1.6" fill="none"/>
-        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
-        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
-        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
-      </svg>
+      <!-- Shared corner art -->
+      <div class="corner tl">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f5e09a"/>
+              <stop offset="100%" stop-color="#a07818"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 88 C6 32 32 6 88 6" stroke="url(#cg)" stroke-width="2"/>
+          <path d="M6 68 C6 28 28 6 68 6" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+          <path d="M12 30 C22 8 44 6 48 24 C52 40 28 44 22 30 C18 20 30 16 34 26"
+                stroke="#e8c547" stroke-width="1.5"/>
+          <path d="M8 52 C14 40 30 38 36 48 C28 56 12 58 8 52Z" fill="url(#cg)" opacity="0.9"/>
+          <circle cx="8" cy="8" r="2.8" fill="#f5e09a"/>
+          <path d="M6 88 Q6 78 16 78" stroke="#c9a227" stroke-width="1.2" opacity="0.55"/>
+          <circle cx="22" cy="10" r="1.2" fill="#e8c547" opacity="0.8"/>
+          <circle cx="10" cy="22" r="1.2" fill="#e8c547" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="corner tr">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 88 C6 32 32 6 88 6" stroke="url(#cg)" stroke-width="2"/>
+          <path d="M6 68 C6 28 28 6 68 6" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+          <path d="M12 30 C22 8 44 6 48 24 C52 40 28 44 22 30 C18 20 30 16 34 26"
+                stroke="#e8c547" stroke-width="1.5"/>
+          <path d="M8 52 C14 40 30 38 36 48 C28 56 12 58 8 52Z" fill="url(#cg)" opacity="0.9"/>
+          <circle cx="8" cy="8" r="2.8" fill="#f5e09a"/>
+          <path d="M6 88 Q6 78 16 78" stroke="#c9a227" stroke-width="1.2" opacity="0.55"/>
+          <circle cx="22" cy="10" r="1.2" fill="#e8c547" opacity="0.8"/>
+          <circle cx="10" cy="22" r="1.2" fill="#e8c547" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="corner bl">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 88 C6 32 32 6 88 6" stroke="url(#cg)" stroke-width="2"/>
+          <path d="M6 68 C6 28 28 6 68 6" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+          <path d="M12 30 C22 8 44 6 48 24 C52 40 28 44 22 30 C18 20 30 16 34 26"
+                stroke="#e8c547" stroke-width="1.5"/>
+          <path d="M8 52 C14 40 30 38 36 48 C28 56 12 58 8 52Z" fill="url(#cg)" opacity="0.9"/>
+          <circle cx="8" cy="8" r="2.8" fill="#f5e09a"/>
+          <path d="M6 88 Q6 78 16 78" stroke="#c9a227" stroke-width="1.2" opacity="0.55"/>
+          <circle cx="22" cy="10" r="1.2" fill="#e8c547" opacity="0.8"/>
+          <circle cx="10" cy="22" r="1.2" fill="#e8c547" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="corner br">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 88 C6 32 32 6 88 6" stroke="url(#cg)" stroke-width="2"/>
+          <path d="M6 68 C6 28 28 6 68 6" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+          <path d="M12 30 C22 8 44 6 48 24 C52 40 28 44 22 30 C18 20 30 16 34 26"
+                stroke="#e8c547" stroke-width="1.5"/>
+          <path d="M8 52 C14 40 30 38 36 48 C28 56 12 58 8 52Z" fill="url(#cg)" opacity="0.9"/>
+          <circle cx="8" cy="8" r="2.8" fill="#f5e09a"/>
+          <path d="M6 88 Q6 78 16 78" stroke="#c9a227" stroke-width="1.2" opacity="0.55"/>
+          <circle cx="22" cy="10" r="1.2" fill="#e8c547" opacity="0.8"/>
+          <circle cx="10" cy="22" r="1.2" fill="#e8c547" opacity="0.8"/>
+        </svg>
+      </div>
     </div>
 
-    <!-- Main content -->
+    <!-- Content -->
     <div class="content">
-
-      <!-- Laurel wreath -->
-      <svg class="laurel" viewBox="0 0 120 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- SVG defs for icon gradients (must be in DOM once) -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="iconStroke" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#f5e09a"/>
-            <stop offset="50%" stop-color="#d4af37"/>
             <stop offset="100%" stop-color="#a07818"/>
           </linearGradient>
+          <linearGradient id="iconFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f0d78c"/>
+            <stop offset="100%" stop-color="#c9a227"/>
+          </linearGradient>
+          <linearGradient id="laurelGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3c4"/>
+            <stop offset="45%" stop-color="#e8c547"/>
+            <stop offset="100%" stop-color="#8a6a12"/>
+          </linearGradient>
         </defs>
-        <!-- left branch -->
-        <g fill="url(#g)">
+      </svg>
+
+      <div class="eyebrow">Honoring Our Mentors</div>
+
+      <svg class="laurel" viewBox="0 0 120 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="url(#laurelGrad)">
           <path d="M60 66 C48 52 28 46 14 52 C24 38 42 32 58 40 C48 30 32 18 22 6 C40 14 52 30 60 46Z"/>
           <ellipse cx="28" cy="28" rx="5.5" ry="10" transform="rotate(-42 28 28)"/>
           <ellipse cx="36" cy="20" rx="5" ry="9" transform="rotate(-55 36 20)"/>
           <ellipse cx="44" cy="36" rx="5.5" ry="10" transform="rotate(-28 44 36)"/>
           <ellipse cx="40" cy="48" rx="5" ry="9" transform="rotate(-15 40 48)"/>
           <ellipse cx="22" cy="40" rx="4.5" ry="8" transform="rotate(-50 22 40)"/>
-        </g>
-        <!-- right branch -->
-        <g fill="url(#g)">
           <path d="M60 66 C72 52 92 46 106 52 C96 38 78 32 62 40 C72 30 88 18 98 6 C80 14 68 30 60 46Z"/>
           <ellipse cx="92" cy="28" rx="5.5" ry="10" transform="rotate(42 92 28)"/>
           <ellipse cx="84" cy="20" rx="5" ry="9" transform="rotate(55 84 20)"/>
@@ -382,7 +591,7 @@
           <ellipse cx="80" cy="48" rx="5" ry="9" transform="rotate(15 80 48)"/>
           <ellipse cx="98" cy="40" rx="4.5" ry="8" transform="rotate(50 98 40)"/>
         </g>
-        <circle cx="60" cy="64" r="3" fill="#f0d78c"/>
+        <circle cx="60" cy="64" r="3.2" fill="#f5e09a"/>
       </svg>
 
       <h1>Happy Teacher's Day</h1>
@@ -390,46 +599,56 @@
 
       <div class="divider" aria-hidden="true">
         <span class="line"></span>
-        <span class="dia"></span>
+        <span class="jewel"></span>
         <span class="line"></span>
       </div>
 
       <div class="lines">
-        <span>Special Celebrations at Coaching</span>
-        <span>Thank You Teachers — For Your Guidance</span>
+        <span class="primary">Special Celebrations at Coaching</span>
+        <span class="secondary">Thank You Teachers — For Your Guidance</span>
       </div>
 
       <div class="icons" aria-hidden="true">
-        <!-- Open book -->
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 16C24 13 10 13 8 16v32c6-3 18-3 24 0 6-3 18-3 24 0V16c-2-3-16-3-24 0z"/>
-          <path d="M32 16v32"/>
-          <path d="M14 24h14M14 32h14M14 40h10"/>
-          <path d="M36 24h14M36 32h14M40 40h10"/>
-        </svg>
-        <!-- Graduation cap -->
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 28 L32 14 L58 28 L32 42 Z"/>
-          <path d="M16 34v14s8 8 16 8 16-8 16-8V34"/>
-          <path d="M58 28v14"/>
-          <circle class="fill-gold" cx="58" cy="44" r="2.5"/>
-          <path d="M58 42v-4"/>
-        </svg>
-        <!-- Apple -->
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 20c0 0-3-10 6-12 0 8-6 12-6 12z" class="fill-gold"/>
-          <path d="M32 22c-10 0-18 8-18 18s8 18 18 18 18-8 18-18-8-18-18-18z"/>
-          <path d="M32 22c-2 6-2 10 0 10"/>
-        </svg>
+        <div class="icon-wrap" title="Knowledge">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 16C24 13 10 13 8 16v32c6-3 18-3 24 0 6-3 18-3 24 0V16c-2-3-16-3-24 0z"/>
+            <path d="M32 16v32"/>
+            <path d="M14 24h14M14 32h14M14 40h10"/>
+            <path d="M36 24h14M36 32h14M40 40h10"/>
+          </svg>
+        </div>
+        <div class="icon-wrap" title="Achievement">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 28 L32 14 L58 28 L32 42 Z"/>
+            <path d="M16 34v14s8 8 16 8 16-8 16-8V34"/>
+            <path d="M58 28v14"/>
+            <circle class="fg" cx="58" cy="44" r="2.6"/>
+            <path d="M58 42v-4"/>
+          </svg>
+        </div>
+        <div class="icon-wrap" title="Appreciation">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 20c0 0-3-10 6-12 0 8-6 12-6 12z" class="fg"/>
+            <path d="M32 22c-10 0-18 8-18 18s8 18 18 18 18-8 18-18-8-18-18-18z"/>
+            <path d="M32 22c-2 6-2 10 0 10"/>
+          </svg>
+        </div>
       </div>
 
-      <div class="date-row">
+      <div class="date-badge">
         <span class="spark">✦</span>
         <span>5th September</span>
         <span class="spark">✦</span>
       </div>
 
-      <div class="bottom-orn" aria-hidden="true"></div>
+      <div class="bottom-mark" aria-hidden="true">
+        <svg viewBox="0 0 160 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 7 H68" stroke="#c9a227" stroke-width="1" opacity="0.7"/>
+          <path d="M92 7 H160" stroke="#c9a227" stroke-width="1" opacity="0.7"/>
+          <path d="M80 1 L86 7 L80 13 L74 7 Z" fill="#e8c547"/>
+          <circle cx="80" cy="7" r="2" fill="#1a1408"/>
+        </svg>
+      </div>
     </div>
   </div>
 </body>
