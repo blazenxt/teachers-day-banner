@@ -619,6 +619,62 @@
       .script { font-size: clamp(1.4rem, 8vw, 2.2rem); }
     }
 
+    /* ========== FULLSCREEN BUTTON ========== */
+    .fs-btn {
+      position: fixed;
+      right: clamp(16px, 2.5vw, 28px);
+      bottom: clamp(16px, 2.5vh, 28px);
+      z-index: 50;
+      appearance: none;
+      border: 1px solid rgba(201, 162, 39, 0.5);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(30, 24, 10, 0.92), rgba(8, 6, 2, 0.95));
+      box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.55),
+        0 0 20px rgba(212, 175, 55, 0.15),
+        inset 0 1px 0 rgba(255, 240, 180, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--gold-2);
+      transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .fs-btn:hover {
+      transform: scale(1.07);
+      border-color: rgba(232, 197, 71, 0.8);
+      color: #fff3c4;
+      box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(212, 175, 55, 0.35),
+        inset 0 1px 0 rgba(255, 240, 180, 0.18);
+    }
+    .fs-btn:active { transform: scale(0.95); }
+    .fs-btn:focus-visible {
+      outline: 2px solid var(--gold-3);
+      outline-offset: 3px;
+    }
+    .fs-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .fs-btn .icon-exit { display: none; }
+    .fs-btn.is-full .icon-enter { display: none; }
+    .fs-btn.is-full .icon-exit { display: block; }
+
+    @media (max-width: 480px) {
+      .fs-btn { width: 44px; height: 44px; }
+      .fs-btn svg { width: 20px; height: 20px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -832,6 +888,16 @@
 
       <div class="signoff">With Gratitude &amp; Respect</div>
     </div>
+
+    <!-- Fullscreen toggle -->
+    <button type="button" class="fs-btn" id="fsBtn" aria-label="Enter fullscreen" title="Fullscreen">
+      <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>
+      </svg>
+      <svg class="icon-exit" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>
+      </svg>
+    </button>
   </div>
 
   <script>
@@ -856,6 +922,57 @@
         p.style.setProperty('--rdelay', (-Math.random() * 16).toFixed(1) + 's');
         p.style.setProperty('--rop', (0.35 + Math.random() * 0.45).toFixed(2));
         layer.appendChild(p);
+      }
+
+      // ===== Fullscreen toggle =====
+      var fsBtn = document.getElementById('fsBtn');
+      if (fsBtn) {
+        var doc = document;
+        var root = doc.documentElement;
+
+        function isFullscreen() {
+          return !!(doc.fullscreenElement || doc.webkitFullscreenElement ||
+                    doc.msFullscreenElement);
+        }
+
+        function enterFs() {
+          if (root.requestFullscreen) return root.requestFullscreen();
+          if (root.webkitRequestFullscreen) return root.webkitRequestFullscreen();
+          if (root.msRequestFullscreen) return root.msRequestFullscreen();
+          return Promise.reject(new Error('unsupported'));
+        }
+
+        function exitFs() {
+          if (doc.exitFullscreen) return doc.exitFullscreen();
+          if (doc.webkitExitFullscreen) return doc.webkitExitFullscreen();
+          if (doc.msExitFullscreen) return doc.msExitFullscreen();
+          return Promise.reject(new Error('unsupported'));
+        }
+
+        function syncBtn() {
+          var on = isFullscreen();
+          fsBtn.classList.toggle('is-full', on);
+          fsBtn.setAttribute('aria-label', on ? 'Exit fullscreen' : 'Enter fullscreen');
+          fsBtn.title = on ? 'Exit fullscreen' : 'Fullscreen';
+        }
+
+        fsBtn.addEventListener('click', function () {
+          var p = isFullscreen() ? exitFs() : enterFs();
+          if (p && typeof p.then === 'function') {
+            p.then(syncBtn).catch(function () { syncBtn(); });
+          } else {
+            syncBtn();
+          }
+        });
+
+        doc.addEventListener('fullscreenchange', syncBtn);
+        doc.addEventListener('webkitfullscreenchange', syncBtn);
+        doc.addEventListener('msfullscreenchange', syncBtn);
+
+        // Hide the button where the Fullscreen API is unavailable (rare / iframes)
+        var supported = root.requestFullscreen || root.webkitRequestFullscreen ||
+                        root.msRequestFullscreen;
+        if (!supported) fsBtn.style.display = 'none';
       }
     })();
   </script>
