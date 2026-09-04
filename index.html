@@ -6,337 +6,430 @@
   <title>Happy Teacher's Day | Celebrations</title>
   <meta name="theme-color" content="#000000" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
       height: 100%;
-      overflow: hidden;
       background: #000;
+      overflow: hidden;
     }
 
-    .stage {
+    .banner {
       width: 100vw;
       height: 100vh;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, #0d0b05 0%, #000 70%),
-        #000;
-      color: #d4af37;
-      font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+      background: #000;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
       overflow: hidden;
     }
 
-    /* Soft gold sparkle dust */
-    .stage::before,
-    .stage::after {
+    /* ===== OUTER ORNATE FRAME ===== */
+    .ornate-border {
+      position: absolute;
+      inset: 2.8%;
+      border: 1.5px solid #c9a227;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Inner thin line */
+    .ornate-border::before {
       content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(201, 162, 39, 0.35);
+    }
+
+    /* Corner flourishes — pure CSS/SVG via background */
+    .corner {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .corner svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+    .tl { top: 2.2%; left: 2.2%; }
+    .tr { top: 2.2%; right: 2.2%; transform: scaleX(-1); }
+    .bl { bottom: 2.2%; left: 2.2%; transform: scaleY(-1); }
+    .br { bottom: 2.2%; right: 2.2%; transform: scale(-1); }
+
+    /* ===== SPARKLES (subtle, sides only like the image) ===== */
+    .sparkles {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      z-index: 1;
       background-image:
-        radial-gradient(1.5px 1.5px at 8% 18%, rgba(255, 220, 120, 0.9), transparent),
-        radial-gradient(1.5px 1.5px at 14% 72%, rgba(212, 175, 55, 0.7), transparent),
-        radial-gradient(2px 2px at 22% 40%, rgba(255, 235, 160, 0.85), transparent),
-        radial-gradient(1px 1px at 30% 12%, rgba(240, 215, 140, 0.6), transparent),
-        radial-gradient(1.5px 1.5px at 38% 88%, rgba(212, 175, 55, 0.75), transparent),
-        radial-gradient(2px 2px at 48% 8%, rgba(255, 220, 120, 0.8), transparent),
-        radial-gradient(1px 1px at 55% 65%, rgba(240, 215, 140, 0.55), transparent),
-        radial-gradient(1.5px 1.5px at 62% 28%, rgba(212, 175, 55, 0.7), transparent),
-        radial-gradient(2px 2px at 70% 78%, rgba(255, 235, 160, 0.85), transparent),
-        radial-gradient(1px 1px at 78% 15%, rgba(240, 215, 140, 0.65), transparent),
-        radial-gradient(1.5px 1.5px at 85% 52%, rgba(212, 175, 55, 0.8), transparent),
-        radial-gradient(2px 2px at 92% 30%, rgba(255, 220, 120, 0.75), transparent),
-        radial-gradient(1px 1px at 95% 82%, rgba(240, 215, 140, 0.6), transparent),
-        radial-gradient(1.5px 1.5px at 5% 55%, rgba(212, 175, 55, 0.7), transparent),
-        radial-gradient(1px 1px at 42% 48%, rgba(255, 235, 160, 0.5), transparent),
-        radial-gradient(2px 2px at 18% 90%, rgba(212, 175, 55, 0.65), transparent),
-        radial-gradient(1px 1px at 88% 68%, rgba(255, 220, 120, 0.7), transparent);
-      opacity: 0.85;
+        /* left cluster */
+        radial-gradient(circle 1.2px at 4% 22%, #ffd86b 100%, transparent 100%),
+        radial-gradient(circle 1.8px at 6.5% 38%, #f0d78c 100%, transparent 100%),
+        radial-gradient(circle 1px at 3.5% 55%, #d4af37 100%, transparent 100%),
+        radial-gradient(circle 1.5px at 7% 68%, #ffe9a0 100%, transparent 100%),
+        radial-gradient(circle 1px at 5% 80%, #c9a227 100%, transparent 100%),
+        radial-gradient(circle 2px at 8% 28%, #fff3c4 100%, transparent 100%),
+        radial-gradient(circle 1px at 9% 48%, #d4af37 100%, transparent 100%),
+        radial-gradient(circle 1.3px at 4.5% 12%, #f0d78c 100%, transparent 100%),
+        /* right cluster */
+        radial-gradient(circle 1.5px at 96% 20%, #ffd86b 100%, transparent 100%),
+        radial-gradient(circle 1.2px at 93.5% 35%, #f0d78c 100%, transparent 100%),
+        radial-gradient(circle 2px at 97% 50%, #ffe9a0 100%, transparent 100%),
+        radial-gradient(circle 1px at 94% 62%, #d4af37 100%, transparent 100%),
+        radial-gradient(circle 1.6px at 96.5% 74%, #fff3c4 100%, transparent 100%),
+        radial-gradient(circle 1px at 92.5% 85%, #c9a227 100%, transparent 100%),
+        radial-gradient(circle 1.4px at 95% 28%, #f0d78c 100%, transparent 100%),
+        radial-gradient(circle 1.1px at 98% 42%, #d4af37 100%, transparent 100%),
+        /* soft dust near corners */
+        radial-gradient(circle 1px at 12% 10%, rgba(240,215,140,0.7) 100%, transparent 100%),
+        radial-gradient(circle 1px at 88% 12%, rgba(240,215,140,0.7) 100%, transparent 100%),
+        radial-gradient(circle 1px at 11% 90%, rgba(212,175,55,0.6) 100%, transparent 100%),
+        radial-gradient(circle 1px at 89% 88%, rgba(212,175,55,0.6) 100%, transparent 100%);
+      opacity: 0.9;
     }
 
-    .stage::after {
-      background-image:
-        radial-gradient(1px 1px at 12% 35%, rgba(255, 235, 160, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 26% 60%, rgba(212, 175, 55, 0.6), transparent),
-        radial-gradient(1px 1px at 58% 22%, rgba(240, 215, 140, 0.55), transparent),
-        radial-gradient(2px 2px at 74% 45%, rgba(255, 220, 120, 0.75), transparent),
-        radial-gradient(1px 1px at 90% 12%, rgba(212, 175, 55, 0.65), transparent),
-        radial-gradient(1.5px 1.5px at 6% 80%, rgba(255, 235, 160, 0.6), transparent),
-        radial-gradient(1px 1px at 44% 75%, rgba(240, 215, 140, 0.5), transparent),
-        radial-gradient(2px 2px at 66% 92%, rgba(212, 175, 55, 0.7), transparent);
-      opacity: 0.7;
+    /* 4-point star accents */
+    .star {
+      position: absolute;
+      color: #e8c547;
+      font-size: 11px;
+      z-index: 1;
+      text-shadow: 0 0 6px rgba(255, 220, 100, 0.8);
+      line-height: 1;
+      pointer-events: none;
     }
+    .s1 { top: 18%; left: 5.5%; font-size: 13px; }
+    .s2 { top: 42%; left: 3.8%; font-size: 9px; opacity: 0.75; }
+    .s3 { top: 70%; left: 6.5%; font-size: 12px; }
+    .s4 { top: 25%; right: 5%; font-size: 14px; }
+    .s5 { top: 55%; right: 3.5%; font-size: 9px; opacity: 0.75; }
+    .s6 { top: 78%; right: 6%; font-size: 11px; }
 
-    /* Ornate double border frame */
-    .frame {
+    /* ===== CONTENT ===== */
+    .content {
       position: relative;
-      width: min(94vw, 1600px);
-      height: min(90vh, 900px);
+      z-index: 4;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: clamp(18px, 3vh, 40px) clamp(24px, 4vw, 60px);
-      border: 2px solid #c9a227;
-      box-shadow:
-        inset 0 0 0 1px rgba(212, 175, 55, 0.35),
-        0 0 0 6px #000,
-        0 0 0 8px rgba(201, 162, 39, 0.55),
-        0 0 60px rgba(212, 175, 55, 0.12);
-      background: linear-gradient(180deg, rgba(20, 16, 6, 0.35) 0%, rgba(0, 0, 0, 0.15) 100%);
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 8%;
+      gap: 0;
     }
-
-    /* Corner ornaments */
-    .frame .corner {
-      position: absolute;
-      width: clamp(36px, 5vw, 70px);
-      height: clamp(36px, 5vw, 70px);
-      pointer-events: none;
-    }
-    .frame .corner svg { width: 100%; height: 100%; display: block; }
-    .c-tl { top: 6px; left: 6px; }
-    .c-tr { top: 6px; right: 6px; transform: scaleX(-1); }
-    .c-bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
-    .c-br { bottom: 6px; right: 6px; transform: scale(-1); }
 
     /* Laurel wreath */
     .laurel {
-      width: clamp(64px, 9vw, 110px);
+      width: clamp(70px, 8vw, 105px);
       height: auto;
-      margin-bottom: clamp(6px, 1.2vh, 14px);
-      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.45));
+      margin-bottom: clamp(10px, 1.8vh, 22px);
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
     }
 
+    /* Main title */
     h1 {
-      font-size: clamp(1.8rem, 6.2vw, 5.2rem);
+      font-family: 'Cinzel', 'Times New Roman', Georgia, serif;
       font-weight: 700;
-      letter-spacing: 0.06em;
-      line-height: 1.05;
-      color: #f0d78c;
-      background: linear-gradient(180deg, #fff3c4 0%, #e8c547 38%, #b8860b 72%, #8a6a12 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 0 rgba(90, 60, 0, 0.55)) drop-shadow(0 0 18px rgba(212, 175, 55, 0.35));
+      font-size: clamp(1.7rem, 5.5vw, 4.4rem);
+      letter-spacing: 0.08em;
+      line-height: 1;
       text-transform: uppercase;
       margin: 0;
-    }
-
-    .script {
-      font-family: "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive;
-      font-size: clamp(1.4rem, 3.8vw, 3.2rem);
-      font-weight: 400;
-      font-style: italic;
-      letter-spacing: 0.04em;
-      margin-top: clamp(2px, 0.6vh, 8px);
-      background: linear-gradient(180deg, #fff0b0 0%, #d4af37 55%, #a07818 100%);
+      white-space: nowrap;
+      background: linear-gradient(
+        180deg,
+        #fff8d6 0%,
+        #f5e09a 18%,
+        #e8c547 42%,
+        #c9a227 68%,
+        #a07818 88%,
+        #c9a227 100%
+      );
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
-      line-height: 1.1;
+      filter:
+        drop-shadow(0 1px 0 rgba(80, 55, 0, 0.5))
+        drop-shadow(0 0 20px rgba(212, 175, 55, 0.28));
     }
 
+    /* Script "Celebrations" */
+    .script {
+      font-family: 'Great Vibes', 'Segoe Script', cursive;
+      font-size: clamp(1.6rem, 4vw, 3.1rem);
+      font-weight: 400;
+      line-height: 1;
+      margin-top: clamp(2px, 0.5vh, 6px);
+      margin-bottom: 0;
+      background: linear-gradient(180deg, #fff0b8 0%, #e0b83a 50%, #b8922a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.25));
+      letter-spacing: 0.02em;
+    }
+
+    /* Divider with diamond */
     .divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      width: min(70%, 520px);
-      margin: clamp(8px, 1.5vh, 18px) auto;
+      gap: 14px;
+      width: clamp(140px, 22vw, 260px);
+      margin: clamp(10px, 1.6vh, 18px) 0;
     }
     .divider .line {
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, #c9a227, transparent);
+      background: linear-gradient(90deg, transparent, #c9a227 30%, #e8c547 50%, #c9a227 70%, transparent);
     }
-    .divider .diamond {
-      width: 8px;
-      height: 8px;
-      background: #d4af37;
+    .divider .dia {
+      width: 7px;
+      height: 7px;
+      background: linear-gradient(135deg, #f0d78c, #c9a227);
       transform: rotate(45deg);
-      box-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 6px rgba(212, 175, 55, 0.7);
       flex-shrink: 0;
     }
 
-    .sub {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(0.95rem, 2.1vw, 1.65rem);
+    /* Subtitles */
+    .lines {
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      font-weight: 500;
+      font-size: clamp(0.95rem, 1.9vw, 1.45rem);
       letter-spacing: 0.04em;
-      color: #e6c86a;
-      text-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
-      line-height: 1.35;
-      margin: 0;
+      line-height: 1.55;
+      color: #e0c56a;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
     }
-    .sub + .sub {
-      margin-top: clamp(4px, 0.8vh, 10px);
-      font-size: clamp(0.85rem, 1.7vw, 1.35rem);
-      color: #c9a84a;
-      letter-spacing: 0.03em;
+    .lines span {
+      display: block;
     }
 
+    /* Icons row */
     .icons {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(28px, 5vw, 64px);
-      margin: clamp(14px, 2.4vh, 28px) 0 clamp(10px, 1.8vh, 20px);
+      gap: clamp(36px, 5.5vw, 72px);
+      margin: clamp(16px, 2.6vh, 30px) 0 clamp(14px, 2.2vh, 26px);
     }
     .icons svg {
-      width: clamp(36px, 5vw, 64px);
-      height: clamp(36px, 5vw, 64px);
+      width: clamp(38px, 4.5vw, 58px);
+      height: clamp(38px, 4.5vw, 58px);
       stroke: #d4af37;
       fill: none;
-      stroke-width: 1.6;
-      filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.35));
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
+    }
+    .icons svg .fill-gold {
+      fill: #d4af37;
+      stroke: none;
     }
 
-    .date {
-      font-size: clamp(1.05rem, 2.4vw, 1.9rem);
-      letter-spacing: 0.12em;
-      font-weight: 600;
-      color: #f0d78c;
-      text-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+    /* Date */
+    .date-row {
       display: flex;
       align-items: center;
-      gap: clamp(10px, 1.5vw, 18px);
+      justify-content: center;
+      gap: clamp(14px, 2vw, 22px);
+      font-family: 'Cinzel', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(1rem, 2.1vw, 1.55rem);
+      letter-spacing: 0.14em;
+      color: #e8c547;
+      text-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
     }
-    .date .star {
-      font-size: 0.7em;
-      color: #d4af37;
-      text-shadow: 0 0 10px rgba(255, 220, 120, 0.8);
+    .date-row .spark {
+      font-size: 0.75em;
+      color: #f0d78c;
+      text-shadow: 0 0 8px rgba(255, 220, 120, 0.9);
     }
 
-    .bottom-rule {
-      width: min(40%, 280px);
+    /* Bottom tiny ornament line */
+    .bottom-orn {
+      margin-top: clamp(10px, 1.5vh, 16px);
+      width: clamp(80px, 12vw, 140px);
       height: 1px;
-      margin-top: clamp(10px, 1.6vh, 18px);
       background: linear-gradient(90deg, transparent, #c9a227, transparent);
       position: relative;
     }
-    .bottom-rule::after {
+    .bottom-orn::after {
       content: "";
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: #d4af37;
       transform: translate(-50%, -50%) rotate(45deg);
-      box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+      box-shadow: 0 0 5px rgba(212, 175, 55, 0.6);
     }
 
-    /* Very wide smart boards */
+    /* Ultra-wide boards */
     @media (min-aspect-ratio: 21/9) {
-      h1 { font-size: clamp(2rem, 5vw, 4.5rem); }
-      .frame { height: min(88vh, 820px); }
+      h1 { font-size: clamp(2rem, 4.5vw, 3.8rem); }
+      .content { max-width: 1300px; }
     }
 
-    /* Portrait / tall boards fallback */
-    @media (max-aspect-ratio: 4/5) {
-      h1 { font-size: clamp(1.6rem, 8vw, 3rem); letter-spacing: 0.04em; }
-      .script { font-size: clamp(1.2rem, 5vw, 2rem); }
+    /* Slightly shorter height */
+    @media (max-height: 600px) {
+      .laurel { width: 55px; margin-bottom: 6px; }
+      .icons { margin: 10px 0 8px; gap: 28px; }
+      .icons svg { width: 32px; height: 32px; }
+      .divider { margin: 6px 0; }
     }
   </style>
 </head>
 <body>
-  <div class="stage">
-    <div class="frame">
-      <!-- Corner flourishes (inline SVG, no external files) -->
-      <span class="corner c-tl" aria-hidden="true">
-        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 62 C8 28, 28 8, 62 8" stroke="#c9a227" stroke-width="2" fill="none"/>
-          <path d="M8 48 C8 24, 24 8, 48 8" stroke="#d4af37" stroke-width="1.2" fill="none" opacity="0.7"/>
-          <path d="M14 22 C22 14, 30 18, 26 26 C34 22, 38 30, 30 34 C34 42, 22 44, 18 36 C10 40, 8 28, 14 22Z" fill="#d4af37" opacity="0.9"/>
-          <circle cx="12" cy="12" r="2.2" fill="#f0d78c"/>
-        </svg>
-      </span>
-      <span class="corner c-tr" aria-hidden="true">
-        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 62 C8 28, 28 8, 62 8" stroke="#c9a227" stroke-width="2" fill="none"/>
-          <path d="M8 48 C8 24, 24 8, 48 8" stroke="#d4af37" stroke-width="1.2" fill="none" opacity="0.7"/>
-          <path d="M14 22 C22 14, 30 18, 26 26 C34 22, 38 30, 30 34 C34 42, 22 44, 18 36 C10 40, 8 28, 14 22Z" fill="#d4af37" opacity="0.9"/>
-          <circle cx="12" cy="12" r="2.2" fill="#f0d78c"/>
-        </svg>
-      </span>
-      <span class="corner c-bl" aria-hidden="true">
-        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 62 C8 28, 28 8, 62 8" stroke="#c9a227" stroke-width="2" fill="none"/>
-          <path d="M8 48 C8 24, 24 8, 48 8" stroke="#d4af37" stroke-width="1.2" fill="none" opacity="0.7"/>
-          <path d="M14 22 C22 14, 30 18, 26 26 C34 22, 38 30, 30 34 C34 42, 22 44, 18 36 C10 40, 8 28, 14 22Z" fill="#d4af37" opacity="0.9"/>
-          <circle cx="12" cy="12" r="2.2" fill="#f0d78c"/>
-        </svg>
-      </span>
-      <span class="corner c-br" aria-hidden="true">
-        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 62 C8 28, 28 8, 62 8" stroke="#c9a227" stroke-width="2" fill="none"/>
-          <path d="M8 48 C8 24, 24 8, 48 8" stroke="#d4af37" stroke-width="1.2" fill="none" opacity="0.7"/>
-          <path d="M14 22 C22 14, 30 18, 26 26 C34 22, 38 30, 30 34 C34 42, 22 44, 18 36 C10 40, 8 28, 14 22Z" fill="#d4af37" opacity="0.9"/>
-          <circle cx="12" cy="12" r="2.2" fill="#f0d78c"/>
-        </svg>
-      </span>
+  <div class="banner">
 
-      <!-- Laurel -->
-      <svg class="laurel" viewBox="0 0 120 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <g fill="#d4af37">
-          <path d="M60 62 C52 50, 34 44, 22 48 C30 36, 44 30, 58 36 C50 28, 36 18, 28 8 C42 14, 54 26, 60 40 Z" opacity="0.95"/>
-          <path d="M60 62 C68 50, 86 44, 98 48 C90 36, 76 30, 62 36 C70 28, 84 18, 92 8 C78 14, 66 26, 60 40 Z" opacity="0.95"/>
-          <ellipse cx="34" cy="30" rx="5" ry="9" transform="rotate(-35 34 30)" opacity="0.85"/>
-          <ellipse cx="42" cy="22" rx="4.5" ry="8" transform="rotate(-50 42 22)" opacity="0.8"/>
-          <ellipse cx="48" cy="38" rx="5" ry="9" transform="rotate(-20 48 38)" opacity="0.85"/>
-          <ellipse cx="86" cy="30" rx="5" ry="9" transform="rotate(35 86 30)" opacity="0.85"/>
-          <ellipse cx="78" cy="22" rx="4.5" ry="8" transform="rotate(50 78 22)" opacity="0.8"/>
-          <ellipse cx="72" cy="38" rx="5" ry="9" transform="rotate(20 72 38)" opacity="0.85"/>
-          <circle cx="60" cy="58" r="3" fill="#f0d78c"/>
+    <!-- Sparkle dust -->
+    <div class="sparkles" aria-hidden="true"></div>
+    <span class="star s1" aria-hidden="true">✦</span>
+    <span class="star s2" aria-hidden="true">✧</span>
+    <span class="star s3" aria-hidden="true">✦</span>
+    <span class="star s4" aria-hidden="true">✦</span>
+    <span class="star s5" aria-hidden="true">✧</span>
+    <span class="star s6" aria-hidden="true">✦</span>
+
+    <!-- Frame -->
+    <div class="ornate-border" aria-hidden="true"></div>
+
+    <!-- Corners -->
+    <div class="corner tl" aria-hidden="true">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
+        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
+        <!-- scroll curl -->
+        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
+              stroke="#d4af37" stroke-width="1.6" fill="none"/>
+        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
+        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
+        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner tr" aria-hidden="true">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
+        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
+        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
+              stroke="#d4af37" stroke-width="1.6" fill="none"/>
+        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
+        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
+        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner bl" aria-hidden="true">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
+        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
+        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
+              stroke="#d4af37" stroke-width="1.6" fill="none"/>
+        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
+        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
+        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="corner br" aria-hidden="true">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 78 C4 30 30 4 78 4" stroke="#c9a227" stroke-width="1.8"/>
+        <path d="M4 60 C4 26 26 4 60 4" stroke="#d4af37" stroke-width="1" opacity="0.55"/>
+        <path d="M10 28 C18 10, 38 8, 42 22 C46 34, 28 38, 22 28 C18 20, 28 16, 32 24"
+              stroke="#d4af37" stroke-width="1.6" fill="none"/>
+        <path d="M8 48 C8 48, 20 36, 34 40 C28 48, 14 52, 8 48Z" fill="#c9a227" opacity="0.85"/>
+        <circle cx="8" cy="8" r="2.5" fill="#f0d78c"/>
+        <path d="M4 78 Q4 70 12 70" stroke="#c9a227" stroke-width="1.2" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+
+      <!-- Laurel wreath -->
+      <svg class="laurel" viewBox="0 0 120 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f5e09a"/>
+            <stop offset="50%" stop-color="#d4af37"/>
+            <stop offset="100%" stop-color="#a07818"/>
+          </linearGradient>
+        </defs>
+        <!-- left branch -->
+        <g fill="url(#g)">
+          <path d="M60 66 C48 52 28 46 14 52 C24 38 42 32 58 40 C48 30 32 18 22 6 C40 14 52 30 60 46Z"/>
+          <ellipse cx="28" cy="28" rx="5.5" ry="10" transform="rotate(-42 28 28)"/>
+          <ellipse cx="36" cy="20" rx="5" ry="9" transform="rotate(-55 36 20)"/>
+          <ellipse cx="44" cy="36" rx="5.5" ry="10" transform="rotate(-28 44 36)"/>
+          <ellipse cx="40" cy="48" rx="5" ry="9" transform="rotate(-15 40 48)"/>
+          <ellipse cx="22" cy="40" rx="4.5" ry="8" transform="rotate(-50 22 40)"/>
         </g>
+        <!-- right branch -->
+        <g fill="url(#g)">
+          <path d="M60 66 C72 52 92 46 106 52 C96 38 78 32 62 40 C72 30 88 18 98 6 C80 14 68 30 60 46Z"/>
+          <ellipse cx="92" cy="28" rx="5.5" ry="10" transform="rotate(42 92 28)"/>
+          <ellipse cx="84" cy="20" rx="5" ry="9" transform="rotate(55 84 20)"/>
+          <ellipse cx="76" cy="36" rx="5.5" ry="10" transform="rotate(28 76 36)"/>
+          <ellipse cx="80" cy="48" rx="5" ry="9" transform="rotate(15 80 48)"/>
+          <ellipse cx="98" cy="40" rx="4.5" ry="8" transform="rotate(50 98 40)"/>
+        </g>
+        <circle cx="60" cy="64" r="3" fill="#f0d78c"/>
       </svg>
 
       <h1>Happy Teacher's Day</h1>
-      <div class="script">Celebrations</div>
+      <p class="script">Celebrations</p>
 
       <div class="divider" aria-hidden="true">
         <span class="line"></span>
-        <span class="diamond"></span>
+        <span class="dia"></span>
         <span class="line"></span>
       </div>
 
-      <p class="sub">Coaching Mein Special Celebrations</p>
-      <p class="sub">Shukriya Teachers — Aapke Guidance Ke Liye</p>
+      <div class="lines">
+        <span>Coaching Mein Special Celebrations</span>
+        <span>Shukriya Teachers — Aapke Guidance Ke Liye</span>
+      </div>
 
       <div class="icons" aria-hidden="true">
         <!-- Open book -->
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <path d="M24 12 C18 10, 8 10, 6 12 V36 C10 34, 18 34, 24 36 C30 34, 38 34, 42 36 V12 C40 10, 30 10, 24 12 Z"/>
-          <path d="M24 12 V36"/>
-          <path d="M12 18 H20 M12 24 H20 M12 30 H18" stroke-linecap="round"/>
-          <path d="M28 18 H36 M28 24 H36 M30 30 H36" stroke-linecap="round"/>
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 16C24 13 10 13 8 16v32c6-3 18-3 24 0 6-3 18-3 24 0V16c-2-3-16-3-24 0z"/>
+          <path d="M32 16v32"/>
+          <path d="M14 24h14M14 32h14M14 40h10"/>
+          <path d="M36 24h14M36 32h14M40 40h10"/>
         </svg>
         <!-- Graduation cap -->
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 20 L24 10 L44 20 L24 30 Z" stroke-linejoin="round"/>
-          <path d="M12 24 V34 C12 34, 18 38, 24 38 C30 38, 36 34, 36 34 V24"/>
-          <path d="M44 20 V30" stroke-linecap="round"/>
-          <circle cx="44" cy="32" r="2" fill="#d4af37" stroke="none"/>
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 28 L32 14 L58 28 L32 42 Z"/>
+          <path d="M16 34v14s8 8 16 8 16-8 16-8V34"/>
+          <path d="M58 28v14"/>
+          <circle class="fill-gold" cx="58" cy="44" r="2.5"/>
+          <path d="M58 42v-4"/>
         </svg>
         <!-- Apple -->
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <path d="M24 14 C24 14, 22 8, 28 6 C28 12, 24 14, 24 14 Z" fill="#d4af37" stroke="none"/>
-          <path d="M24 16 C16 16, 10 22, 10 30 C10 38, 16 44, 24 44 C32 44, 38 38, 38 30 C38 22, 32 16, 24 16 Z"/>
-          <path d="M24 16 C22 20, 22 24, 24 24" stroke-linecap="round"/>
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 20c0 0-3-10 6-12 0 8-6 12-6 12z" class="fill-gold"/>
+          <path d="M32 22c-10 0-18 8-18 18s8 18 18 18 18-8 18-18-8-18-18-18z"/>
+          <path d="M32 22c-2 6-2 10 0 10"/>
         </svg>
       </div>
 
-      <div class="date">
-        <span class="star">✦</span>
+      <div class="date-row">
+        <span class="spark">✦</span>
         <span>5th September</span>
-        <span class="star">✦</span>
+        <span class="spark">✦</span>
       </div>
-      <div class="bottom-rule" aria-hidden="true"></div>
+
+      <div class="bottom-orn" aria-hidden="true"></div>
     </div>
   </div>
 </body>
