@@ -1,32 +1,34 @@
 # Happy Teacher's Day Banner
 
 Pure HTML/CSS fullscreen banner for smart board / projector,
-with an **original** Teacher's Day melody (composed for this project — not from YouTube / not a known song) and JPG downloads.
+with animated gold-on-black celebration visuals and JPG downloads.
+**No background music / audio** — the page is fully silent.
 
 ## Live
 
-- Display + song: https://banner.blazenxt.in/
+- Display: https://banner.blazenxt.in/
 - Downloads: https://banner.blazenxt.in/api/downloads
 
-## Music
+## UI
 
-**“Gratitude · Teacher's Day”** — original ceremonial piano melody
-synthesized in Python (`scripts/compose_melody.py`).
+Premium ceremonial gold-and-black theme with:
 
-```bash
-python3 scripts/compose_melody.py
-ffmpeg -y -i assets/audio/teachers-day-song.wav -b:a 192k assets/audio/teachers-day-song.mp3
-```
+- Ambient aurora glow + slowly rotating light rays
+- Twinkling sparkles and rising golden dust particles
+- Shimmering gradient title, floating laurel, spinning jewel divider
+- Dashed halo rings around the icons, pulsing date badge
+- Fully responsive (smart boards, 21:9, short projectors, phones)
+- Respects `prefers-reduced-motion`
 
-No third-party commercial tracks. No YouTube rips.
+All visuals are self-contained in `index.html` (CSS + a tiny vanilla-JS
+particle generator). No build step, no external media.
 
 ## Routes
 
 | Path | What |
 |------|------|
-| `/` | Fullscreen CSS banner + original melody |
+| `/` | Fullscreen animated CSS banner (silent) |
 | `/api/downloads` | Download horizontal + vertical JPG banners |
-| `/assets/audio/teachers-day-song.mp3` | Original song |
 
 ## Contributors
 

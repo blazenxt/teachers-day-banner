@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#000000" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --gold-1: #fff8d0;
@@ -48,9 +48,76 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
+        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.6) 100%);
       pointer-events: none;
       z-index: 1;
+    }
+
+    /* ========== AURORA BLOBS ========== */
+    .aurora {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: screen;
+    }
+    .aurora.a1 {
+      width: 46vmax; height: 46vmax;
+      left: -12vmax; top: -14vmax;
+      background: radial-gradient(circle, rgba(212,175,55,0.14), transparent 65%);
+      animation: drift-1 22s ease-in-out infinite alternate;
+    }
+    .aurora.a2 {
+      width: 40vmax; height: 40vmax;
+      right: -12vmax; bottom: -12vmax;
+      background: radial-gradient(circle, rgba(160,120,24,0.16), transparent 65%);
+      animation: drift-2 26s ease-in-out infinite alternate;
+    }
+    .aurora.a3 {
+      width: 30vmax; height: 30vmax;
+      left: 55%; top: 60%;
+      background: radial-gradient(circle, rgba(232,197,71,0.08), transparent 65%);
+      animation: drift-3 30s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift-1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(6vmax, 4vmax) scale(1.15); }
+    }
+    @keyframes drift-2 {
+      from { transform: translate(0, 0) scale(1.1); }
+      to   { transform: translate(-5vmax, -5vmax) scale(0.95); }
+    }
+    @keyframes drift-3 {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(-8vmax, -6vmax); }
+    }
+
+    /* Rotating light rays behind content */
+    .rays {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 130vmax;
+      height: 130vmax;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg, rgba(212,175,55,0.045) 12deg, transparent 24deg,
+        transparent 60deg, rgba(212,175,55,0.035) 72deg, transparent 84deg,
+        transparent 120deg, rgba(212,175,55,0.045) 132deg, transparent 144deg,
+        transparent 180deg, rgba(212,175,55,0.035) 192deg, transparent 204deg,
+        transparent 240deg, rgba(212,175,55,0.045) 252deg, transparent 264deg,
+        transparent 300deg, rgba(212,175,55,0.035) 312deg, transparent 324deg
+      );
+      pointer-events: none;
+      z-index: 1;
+      animation: spin-rays 90s linear infinite;
+      opacity: 0.9;
+    }
+    @keyframes spin-rays {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     /* Ambient gold glow behind content */
@@ -62,7 +129,7 @@
       top: 48%;
       transform: translate(-50%, -50%);
       background: radial-gradient(ellipse at center,
-        rgba(212, 175, 55, 0.16) 0%,
+        rgba(212, 175, 55, 0.17) 0%,
         rgba(212, 175, 55, 0.06) 35%,
         transparent 70%);
       filter: blur(8px);
@@ -73,7 +140,7 @@
 
     @keyframes pulse-glow {
       0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
     }
 
     /* ========== SPARKLES ========== */
@@ -115,12 +182,37 @@
       50% { opacity: 1; transform: scale(1.15); }
     }
 
+    /* Rising golden dust */
+    .dust {
+      position: absolute;
+      bottom: -4vh;
+      border-radius: 50%;
+      background: var(--gold-2);
+      box-shadow: 0 0 8px 2px rgba(255, 220, 120, 0.5);
+      opacity: 0;
+      animation: rise var(--rd, 14s) linear infinite;
+      animation-delay: var(--rdelay, 0s);
+      pointer-events: none;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+      8%   { opacity: var(--rop, 0.7); }
+      50%  { transform: translateY(-52vh) translateX(3vw) scale(1); }
+      92%  { opacity: var(--rop, 0.7); }
+      100% { transform: translateY(-108vh) translateX(-2vw) scale(0.7); opacity: 0; }
+    }
+
     /* ========== FRAME ========== */
     .frame {
       position: absolute;
       inset: clamp(14px, 2.6vh, 28px) clamp(16px, 2.8vw, 36px);
       z-index: 3;
       pointer-events: none;
+      animation: frame-fade 1.6s ease both;
+    }
+    @keyframes frame-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     /* Outer gold line */
@@ -149,11 +241,16 @@
       transform: rotate(45deg);
       box-shadow: 0 0 8px rgba(212, 175, 55, 0.55);
       z-index: 4;
+      animation: tick-glow 3.2s ease-in-out infinite;
     }
     .tick.top { top: -4px; left: 50%; margin-left: -4px; }
     .tick.bottom { bottom: -4px; left: 50%; margin-left: -4px; }
     .tick.left { left: -4px; top: 50%; margin-top: -4px; }
     .tick.right { right: -4px; top: 50%; margin-top: -4px; }
+    @keyframes tick-glow {
+      0%, 100% { box-shadow: 0 0 6px rgba(212,175,55,0.4); }
+      50%      { box-shadow: 0 0 14px rgba(255,220,120,0.8); }
+    }
 
     /* Ornate corners */
     .corner {
@@ -179,11 +276,11 @@
       text-align: center;
       width: min(92vw, 1080px);
       padding: clamp(20px, 4vh, 48px) clamp(16px, 3vw, 40px);
-      animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: rise-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     @keyframes rise-in {
-      from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(4px); }
+      from { opacity: 0; transform: translateY(22px) scale(0.985); filter: blur(6px); }
       to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
@@ -199,6 +296,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      animation: fade-down 1s ease 0.25s both;
     }
     .eyebrow::before,
     .eyebrow::after {
@@ -210,6 +308,10 @@
     .eyebrow::after {
       background: linear-gradient(90deg, var(--gold-5), transparent);
     }
+    @keyframes fade-down {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* Laurel */
     .laurel {
@@ -217,18 +319,22 @@
       height: auto;
       margin-bottom: clamp(8px, 1.4vh, 16px);
       filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.45));
-      animation: float-soft 6s ease-in-out infinite;
+      animation: float-soft 6s ease-in-out infinite, laurel-glow 4s ease-in-out infinite;
     }
 
     @keyframes float-soft {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes laurel-glow {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(212,175,55,0.35)); }
+      50%      { filter: drop-shadow(0 0 20px rgba(255,220,120,0.6)); }
     }
 
     /* Title */
     h1 {
       font-family: 'Cinzel', 'Times New Roman', Georgia, serif;
-      font-weight: 800;
+      font-weight: 900;
       font-size: clamp(1.55rem, 5.4vw, 4.35rem);
       letter-spacing: 0.085em;
       line-height: 1.02;
@@ -246,6 +352,7 @@
         #d4af37 92%,
         #f0d78c 100%
       );
+      background-size: 100% 220%;
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -253,6 +360,12 @@
         drop-shadow(0 2px 0 rgba(60, 40, 0, 0.55))
         drop-shadow(0 0 28px rgba(212, 175, 55, 0.35));
       position: relative;
+      animation: title-sheen 6s ease-in-out infinite;
+    }
+
+    @keyframes title-sheen {
+      0%, 100% { background-position: 50% 0%; }
+      50%      { background-position: 50% 100%; }
     }
 
     /* Script */
@@ -263,11 +376,13 @@
       line-height: 1.05;
       margin-top: clamp(4px, 0.8vh, 10px);
       background: linear-gradient(180deg, #fff3c4 0%, #e8c547 48%, #b8922a 100%);
+      background-size: 100% 200%;
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.3));
       letter-spacing: 0.03em;
+      animation: title-sheen 7s ease-in-out infinite;
     }
 
     /* Ornamental divider */
@@ -289,6 +404,7 @@
       width: 10px;
       height: 10px;
       flex-shrink: 0;
+      animation: jewel-spin 5s linear infinite;
     }
     .divider .jewel::before {
       content: "";
@@ -304,6 +420,10 @@
       inset: 3px;
       background: #1a1408;
       transform: rotate(45deg);
+    }
+    @keyframes jewel-spin {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50%      { transform: rotate(180deg) scale(1.15); }
     }
 
     /* Subtitles */
@@ -358,9 +478,36 @@
       transition: transform 0.35s ease, box-shadow 0.35s ease;
       animation: icon-in 0.9s ease backwards;
     }
-    .icon-wrap:nth-child(1) { animation-delay: 0.35s; }
-    .icon-wrap:nth-child(2) { animation-delay: 0.5s; }
-    .icon-wrap:nth-child(3) { animation-delay: 0.65s; }
+    .icon-wrap:nth-child(1) { animation-delay: 0.45s; }
+    .icon-wrap:nth-child(2) { animation-delay: 0.6s; }
+    .icon-wrap:nth-child(3) { animation-delay: 0.75s; }
+
+    /* Rotating dashed halo ring */
+    .icon-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -9px;
+      border-radius: 50%;
+      border: 1px dashed rgba(212, 175, 55, 0.35);
+      animation: halo-spin 14s linear infinite;
+    }
+    .icon-wrap::after {
+      content: "";
+      position: absolute;
+      inset: -15px;
+      border-radius: 50%;
+      border: 1px solid rgba(232, 197, 71, 0.1);
+    }
+    .icon-wrap:hover {
+      transform: translateY(-4px) scale(1.06);
+      box-shadow:
+        0 0 0 1px rgba(232, 197, 71, 0.5),
+        0 0 30px rgba(212, 175, 55, 0.28);
+    }
+
+    @keyframes halo-spin {
+      to { transform: rotate(360deg); }
+    }
 
     @keyframes icon-in {
       from { opacity: 0; transform: translateY(12px) scale(0.9); }
@@ -376,6 +523,8 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
+      position: relative;
+      z-index: 1;
     }
     .icon-wrap svg .fg {
       fill: url(#iconFill);
@@ -403,6 +552,11 @@
       color: #f0d78c;
       text-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
       margin-top: clamp(4px, 0.8vh, 10px);
+      animation: badge-pulse 3.4s ease-in-out infinite;
+    }
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 24px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,240,180,0.12); }
+      50%      { box-shadow: 0 0 38px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,240,180,0.2); }
     }
     .date-badge .spark {
       position: static;
@@ -428,6 +582,16 @@
     }
     .bottom-mark svg { width: 100%; height: 100%; }
 
+    .signoff {
+      margin-top: clamp(10px, 1.6vh, 18px);
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.05rem, 2vw, 1.5rem);
+      color: rgba(232, 197, 71, 0.7);
+      letter-spacing: 0.04em;
+      text-shadow: 0 0 12px rgba(212,175,55,0.25);
+      animation: fade-down 1s ease 1s both;
+    }
+
     /* Ultra-wide smart boards */
     @media (min-aspect-ratio: 21/9) {
       h1 { font-size: clamp(1.8rem, 4.2vw, 3.6rem); }
@@ -442,6 +606,7 @@
       .divider { margin: 8px 0; }
       .date-badge { padding: 6px 18px; }
       .bottom-mark { margin-top: 8px; }
+      .signoff { margin-top: 6px; }
     }
 
     @media (max-width: 520px) {
@@ -454,197 +619,28 @@
       .script { font-size: clamp(1.4rem, 8vw, 2.2rem); }
     }
 
-    /* ========== MUSIC PLAYER ========== */
-    .music-dock {
-      position: fixed;
-      right: clamp(16px, 2.5vw, 28px);
-      bottom: clamp(16px, 2.5vh, 28px);
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px 10px 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(30, 24, 10, 0.92), rgba(8, 6, 2, 0.95));
-      border: 1px solid rgba(201, 162, 39, 0.45);
-      box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.55),
-        0 0 24px rgba(212, 175, 55, 0.12),
-        inset 0 1px 0 rgba(255, 240, 180, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      font-family: 'Cinzel', Georgia, serif;
-      color: var(--gold-2, #f5e09a);
-      user-select: none;
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .music-dock.playing {
-      border-color: rgba(232, 197, 71, 0.7);
-      box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.55),
-        0 0 36px rgba(212, 175, 55, 0.28),
-        inset 0 1px 0 rgba(255, 240, 180, 0.14);
-    }
-
-    .music-btn {
-      appearance: none;
-      border: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(160deg, #e8c547 0%, #c9a227 45%, #8a6a12 100%);
-      box-shadow:
-        0 2px 0 rgba(60, 40, 0, 0.5),
-        0 0 16px rgba(212, 175, 55, 0.35);
-      color: #1a1205;
-      transition: transform 0.15s ease, filter 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .music-btn:hover { transform: scale(1.05); filter: brightness(1.08); }
-    .music-btn:active { transform: scale(0.97); }
-
-    .music-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    .music-btn .icon-pause { display: none; }
-    .music-dock.playing .music-btn .icon-play { display: none; }
-    .music-dock.playing .music-btn .icon-pause { display: block; }
-
-    .music-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-      padding-right: 6px;
-    }
-
-    .music-meta .label {
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(232, 197, 71, 0.65);
-      line-height: 1;
-    }
-
-    .music-meta .title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: #f0d78c;
-      white-space: nowrap;
-      line-height: 1.2;
-    }
-
-    /* Equalizer bars */
-    .eq {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 16px;
-      margin-left: 2px;
-      opacity: 0.35;
-    }
-    .music-dock.playing .eq { opacity: 1; }
-
-    .eq span {
-      width: 3px;
-      height: 4px;
-      border-radius: 1px;
-      background: linear-gradient(180deg, #fff3c4, #d4af37);
-      animation: none;
-    }
-    .music-dock.playing .eq span {
-      animation: eq-bounce 0.9s ease-in-out infinite;
-    }
-    .music-dock.playing .eq span:nth-child(1) { animation-delay: 0s; }
-    .music-dock.playing .eq span:nth-child(2) { animation-delay: 0.15s; }
-    .music-dock.playing .eq span:nth-child(3) { animation-delay: 0.3s; }
-    .music-dock.playing .eq span:nth-child(4) { animation-delay: 0.1s; }
-
-    @keyframes eq-bounce {
-      0%, 100% { height: 4px; }
-      50% { height: 16px; }
-    }
-
-    /* First-tap overlay for browsers that block autoplay */
-    .music-gate {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: grid;
-      place-items: center;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-    }
-    .music-gate.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .music-gate-card {
-      text-align: center;
-      padding: 36px 40px;
-      border-radius: 20px;
-      border: 1px solid rgba(201, 162, 39, 0.5);
-      background: linear-gradient(160deg, rgba(30, 24, 10, 0.95), rgba(8, 6, 2, 0.98));
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(212, 175, 55, 0.15);
-      max-width: 90vw;
-    }
-    .music-gate-card p {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1.15rem;
-      color: rgba(240, 215, 140, 0.85);
-      margin-bottom: 18px;
-      letter-spacing: 0.04em;
-    }
-    .music-gate-card button {
-      appearance: none;
-      border: 1px solid rgba(212, 175, 55, 0.6);
-      background: linear-gradient(180deg, #3a2f12, #1a1508);
-      color: #f0d78c;
-      font-family: 'Cinzel', Georgia, serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 14px 28px;
-      border-radius: 999px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
-    }
-    .music-gate-card button svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    @media (max-width: 480px) {
-      .music-meta .title { font-size: 0.72rem; }
-      .music-dock { padding: 8px 12px 8px 8px; }
-      .music-btn { width: 42px; height: 42px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
     }
   </style>
 </head>
 <body>
   <div class="banner">
+    <!-- Ambient aurora blobs -->
+    <div class="aurora a1" aria-hidden="true"></div>
+    <div class="aurora a2" aria-hidden="true"></div>
+    <div class="aurora a3" aria-hidden="true"></div>
+
+    <!-- Rotating light rays -->
+    <div class="rays" aria-hidden="true"></div>
+
     <div class="glow" aria-hidden="true"></div>
 
-    <!-- Animated sparkles -->
-    <div class="sparkles" aria-hidden="true">
+    <!-- Animated sparkles + rising dust -->
+    <div class="sparkles" id="sparkles" aria-hidden="true">
       <span class="spark" style="left:4%;top:18%;--delay:0s;--d:3.2s"></span>
       <span class="spark" style="left:7%;top:36%;--delay:0.4s;--d:2.8s"></span>
       <span class="spark" style="left:3.5%;top:58%;--delay:1s;--d:3.5s"></span>
@@ -833,123 +829,34 @@
           <circle cx="80" cy="7" r="2" fill="#1a1408"/>
         </svg>
       </div>
-    </div>
 
-    <!-- Background song -->
-    <audio id="tdSong" loop preload="auto" playsinline>
-      <source src="/assets/audio/teachers-day-song.mp3" type="audio/mpeg" />
-    </audio>
-
-    <!-- Floating music control -->
-    <div class="music-dock" id="musicDock" role="group" aria-label="Background music">
-      <button type="button" class="music-btn" id="musicToggle" aria-label="Play music">
-        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
-      </button>
-      <div class="music-meta">
-        <span class="label">Original Composition</span>
-        <span class="title">Gratitude · Teacher's Day</span>
-      </div>
-      <div class="eq" aria-hidden="true">
-        <span></span><span></span><span></span><span></span>
-      </div>
-    </div>
-
-    <!-- Autoplay unlock (browsers block silent autoplay sometimes) -->
-    <div class="music-gate" id="musicGate" aria-hidden="true">
-      <div class="music-gate-card">
-        <p>Tap to play our original Teacher's Day melody</p>
-        <button type="button" id="musicStart">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-          Play Song
-        </button>
-      </div>
+      <div class="signoff">With Gratitude &amp; Respect</div>
     </div>
   </div>
 
   <script>
     (function () {
-      const audio = document.getElementById('tdSong');
-      const dock = document.getElementById('musicDock');
-      const toggle = document.getElementById('musicToggle');
-      const gate = document.getElementById('musicGate');
-      const startBtn = document.getElementById('musicStart');
+      // Generate rising golden dust particles (purely decorative, no audio)
+      var layer = document.getElementById('sparkles');
+      if (!layer) return;
 
-      if (!audio || !dock || !toggle) return;
+      var reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
 
-      audio.volume = 0.55;
-
-      function setPlaying(on) {
-        dock.classList.toggle('playing', on);
-        toggle.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
+      var COUNT = 26;
+      for (var i = 0; i < COUNT; i++) {
+        var p = document.createElement('span');
+        p.className = 'dust';
+        var size = 2 + Math.random() * 3.5;
+        p.style.width = size.toFixed(1) + 'px';
+        p.style.height = size.toFixed(1) + 'px';
+        p.style.left = (Math.random() * 100).toFixed(2) + '%';
+        p.style.setProperty('--rd', (11 + Math.random() * 12).toFixed(1) + 's');
+        p.style.setProperty('--rdelay', (-Math.random() * 16).toFixed(1) + 's');
+        p.style.setProperty('--rop', (0.35 + Math.random() * 0.45).toFixed(2));
+        layer.appendChild(p);
       }
-
-      function play() {
-        const p = audio.play();
-        if (p && typeof p.then === 'function') {
-          return p.then(function () {
-            setPlaying(true);
-            hideGate();
-            return true;
-          }).catch(function () {
-            setPlaying(false);
-            return false;
-          });
-        }
-        setPlaying(!audio.paused);
-        return Promise.resolve(!audio.paused);
-      }
-
-      function pause() {
-        audio.pause();
-        setPlaying(false);
-      }
-
-      function hideGate() {
-        gate.classList.remove('show');
-        gate.setAttribute('aria-hidden', 'true');
-      }
-
-      function showGate() {
-        gate.classList.add('show');
-        gate.setAttribute('aria-hidden', 'false');
-      }
-
-      toggle.addEventListener('click', function () {
-        if (audio.paused) play();
-        else pause();
-      });
-
-      startBtn.addEventListener('click', function () {
-        play();
-      });
-
-      // Tap anywhere on gate to start
-      gate.addEventListener('click', function (e) {
-        if (e.target === gate) play();
-      });
-
-      audio.addEventListener('play', function () { setPlaying(true); });
-      audio.addEventListener('pause', function () { setPlaying(false); });
-      audio.addEventListener('ended', function () { setPlaying(false); });
-
-      // Try autoplay on load (works on many smart-board browsers / kiosk mode)
-      play().then(function (ok) {
-        if (!ok) {
-          // Soft retry on first user gesture anywhere
-          showGate();
-          const unlock = function () {
-            play().then(function (started) {
-              if (started) {
-                document.removeEventListener('pointerdown', unlock, true);
-                document.removeEventListener('keydown', unlock, true);
-              }
-            });
-          };
-          document.addEventListener('pointerdown', unlock, true);
-          document.addEventListener('keydown', unlock, true);
-        }
-      });
     })();
   </script>
 </body>
