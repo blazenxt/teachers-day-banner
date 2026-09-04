@@ -32,8 +32,10 @@
 
     /* ========== STAGE ========== */
     .banner {
-      width: 100vw;
-      height: 100vh;
+      width: 100vw;           /* fallback */
+      width: 100dvw;          /* real viewport on mobile / fullscreen */
+      height: 100vh;          /* fallback */
+      height: 100dvh;         /* real viewport on mobile / fullscreen */
       position: relative;
       display: grid;
       place-items: center;
@@ -276,7 +278,10 @@
       text-align: center;
       width: min(92vw, 1080px);
       padding: clamp(20px, 4vh, 48px) clamp(16px, 3vw, 40px);
-      animation: rise-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transform-origin: center center;
+      /* 'backwards' (not 'both') so the JS auto-fit scale is not overridden
+         after the entrance animation finishes */
+      animation: rise-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
 
     @keyframes rise-in {
@@ -598,15 +603,29 @@
       .content { width: min(80vw, 1200px); }
     }
 
-    @media (max-height: 560px) {
-      .eyebrow { margin-bottom: 6px; letter-spacing: 0.3em; }
-      .laurel { width: 58px; margin-bottom: 4px; }
-      .icons { margin: 10px 0; gap: 20px; }
-      .icon-wrap { width: 44px; height: 44px; }
-      .divider { margin: 8px 0; }
-      .date-badge { padding: 6px 18px; }
-      .bottom-mark { margin-top: 8px; }
-      .signoff { margin-top: 6px; }
+    /* Short screens — phones in landscape / fullscreen */
+    @media (max-height: 600px) {
+      .content { padding: 10px 14px; }
+      .eyebrow { margin-bottom: 5px; letter-spacing: 0.28em; font-size: 0.6rem; }
+      .laurel { width: 52px; margin-bottom: 3px; }
+      h1 { font-size: clamp(1.1rem, 5.6vh, 2rem); white-space: nowrap; letter-spacing: 0.06em; }
+      .script { font-size: clamp(1rem, 4.8vh, 1.7rem); margin-top: 2px; }
+      .icons { margin: 8px 0; gap: 22px; }
+      .icon-wrap { width: 42px; height: 42px; }
+      .divider { margin: 6px 0; width: clamp(120px, 22vw, 220px); }
+      .lines { font-size: clamp(0.8rem, 2.6vh, 1.05rem); line-height: 1.4; }
+      .date-badge { padding: 5px 16px; font-size: clamp(0.72rem, 2.8vh, 0.95rem); margin-top: 2px; }
+      .bottom-mark { margin-top: 6px; width: 92px; height: 11px; }
+      .signoff { margin-top: 5px; font-size: 1rem; }
+    }
+
+    @media (max-height: 380px) {
+      .laurel { width: 40px; }
+      .icon-wrap { width: 36px; height: 36px; }
+      .icons { margin: 5px 0; gap: 16px; }
+      .divider { width: 96px; }
+      .signoff { display: none; }
+      .eyebrow::before, .eyebrow::after { width: 22px; }
     }
 
     @media (max-width: 520px) {
@@ -922,6 +941,38 @@
         p.style.setProperty('--rdelay', (-Math.random() * 16).toFixed(1) + 's');
         p.style.setProperty('--rop', (0.35 + Math.random() * 0.45).toFixed(2));
         layer.appendChild(p);
+      }
+
+      // ===== Auto-fit: keep the whole banner visible in landscape / fullscreen =====
+      var content = document.querySelector('.content');
+      if (content) {
+        var fitTimer = null;
+        function fitContent() {
+          // Measure natural (unscaled) size first
+          content.style.transform = '';
+          var natW = content.scrollWidth;
+          var natH = content.scrollHeight;
+          var availW = window.innerWidth - 28;   // small gap from frame/edges
+          var availH = window.innerHeight - 20;
+          var scale = Math.min(1, availW / natW, availH / natH);
+          if (!isFinite(scale) || scale <= 0) scale = 1;
+          content.style.transform = scale < 1 ? 'scale(' + scale.toFixed(3) + ')' : '';
+        }
+        function scheduleFit() {
+          clearTimeout(fitTimer);
+          fitTimer = setTimeout(fitContent, 120);
+        }
+        window.addEventListener('resize', scheduleFit);
+        window.addEventListener('orientationchange', scheduleFit);
+        document.addEventListener('fullscreenchange', scheduleFit);
+        document.addEventListener('webkitfullscreenchange', scheduleFit);
+        // Re-fit after the entrance animation and once webfonts settle
+        setTimeout(fitContent, 120);
+        setTimeout(fitContent, 600);
+        setTimeout(fitContent, 1300);
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(function () { scheduleFit(); });
+        }
       }
 
       // ===== Fullscreen toggle =====
