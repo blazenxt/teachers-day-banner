@@ -1,0 +1,10 @@
+{
+  "name": "teachers-day-banner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Happy Teacher's Day Celebrations banner page",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000"
+  }
+}
