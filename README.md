@@ -34,3 +34,8 @@ vercel --prod
 4. Click **Deploy** (no build settings needed — static site)
 
 Live link mil jayega jaise: `https://teachers-day-banner.vercel.app`
+
+## Contributors
+
+- [blazenxt](https://github.com/blazenxt)
+- [m11galaxym581](https://github.com/m11galaxym581)
