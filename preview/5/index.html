@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Teacher's Day | Celebrations</title>
   <meta name="theme-color" content="#000000" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+Devanagari:wght@500;600&display=swap" rel="stylesheet" />
@@ -295,26 +297,6 @@
     .fs-btn.is-full .icon-enter { display:none; }
     .fs-btn.is-full .icon-exit { display:block; }
 
-    /* ===== MUSIC mute/unmute button (bottom-left) ===== */
-    .music-btn {
-      position:fixed; left:clamp(14px,2vw,26px); bottom:clamp(14px,2.2vh,26px); z-index:50;
-      appearance:none; border:1px solid rgba(201,162,39,0.5); width:46px; height:46px; border-radius:50%;
-      cursor:pointer; display:grid; place-items:center;
-      background:linear-gradient(135deg, rgba(30,24,10,0.92), rgba(8,6,2,0.95));
-      box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 0 20px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,240,180,0.12);
-      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); color:var(--gold-2);
-      transition:transform .18s ease, box-shadow .25s ease, border-color .25s ease, color .25s ease;
-    }
-    .music-btn:hover { transform:scale(1.07); border-color:rgba(232,197,71,0.8); color:#fff3c4;
-      box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 0 30px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,240,180,0.18); }
-    .music-btn:active { transform:scale(0.95); }
-    .music-btn:focus-visible { outline:2px solid var(--gold-3); outline-offset:3px; }
-    .music-btn svg { width:21px; height:21px; fill:currentColor; }
-    .music-btn .ic-mute { display:none; }
-    .music-btn.is-muted { color:rgba(232,197,71,0.55); }
-    .music-btn.is-muted .ic-sound { display:none; }
-    .music-btn.is-muted .ic-mute { display:block; }
-
     .preview-tag {
       position:fixed; left:clamp(12px,2vw,22px); bottom:clamp(14px,2.2vh,26px); z-index:50;
       font-family:'Cinzel',Georgia,serif; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
@@ -476,15 +458,7 @@
       <svg class="icon-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
     </button>
 
-    <!-- Background music: single mute/unmute button (bottom-left) -->
-    <button type="button" class="music-btn is-muted" id="musicBtn" aria-label="Unmute music" title="Music off — tap to play">
-      <svg class="ic-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
-      <svg class="ic-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.59 3L19 9.41 17.59 8 15 10.59 12.41 8 11 9.41 13.59 12 11 14.59 12.41 16 15 13.41 17.59 16 19 14.59 16.59 12z"/></svg>
-    </button>
-
-    <audio id="bgMusic" preload="auto" playsinline></audio>
-
-    <div class="preview-tag" aria-hidden="true">Preview · v5 · Music</div>
+    <div class="preview-tag" aria-hidden="true">Preview · v5</div>
   </div>
 
   <script>
@@ -636,7 +610,7 @@
       }
       // tap anywhere (except the fullscreen button) for a burst
       document.getElementById('banner').addEventListener('pointerdown', function (e) {
-        if (e.target.closest && (e.target.closest('.fs-btn') || e.target.closest('.music-btn'))) return;
+        if (e.target.closest && e.target.closest('.fs-btn')) return;
         burst(e.clientX, e.clientY);
       });
       if (!reduceMotion) {
@@ -644,108 +618,6 @@
         setTimeout(celebrate, 2200);
         setInterval(celebrate, 6500);          // frequent periodic celebration
       }
-
-      /* ---------- 24x7 bhajan player (JioSaavn via /api/music proxy) ----------
-         Tracks are searched by name on JioSaavn and played from the CDN
-         through our own Vercel proxy (no MP3 files needed). If a track can't
-         be resolved/played it is auto-skipped. Optional: put local MP3s in
-         'fallback' (assets/audio/...) and they are used if the proxy fails.
-         Autoplay unlocks on the first tap/click anywhere. */
-      var SONGS = [
-        { title: "Guruvar Tere Sar Par Haath",       q: "Guruvar tere sar par haath rakh do",        fallback: "assets/audio/guruvar-tere-sar-par-haath.mp3" },
-        { title: "Guru Vachno Ko Rakhna Sambhal Ke", q: "Guru vachno ko rakhna sambhal ke",          fallback: "assets/audio/guru-vachno-ko-rakhna.mp3" },
-        { title: "Guru Meri Pooja",                   q: "Guru meri puja guru govinda",               fallback: "assets/audio/guru-meri-pooja.mp3" },
-        { title: "Guru Meri Drishti Mein",            q: "Guru meri drishti mein",                    fallback: "assets/audio/guru-meri-drishti.mp3" },
-        { title: "Shukriya Tera Aye Guru",            q: "Shukriya tera aye guru",                    fallback: "assets/audio/shukriya-tera-aye-guru.mp3" },
-        { title: "Guru Brahma Gurur Vishnu",          q: "Guru brahma guru vishnu guru devo maheshwara", fallback: "assets/audio/guru-brahma-gurur-vishnu.mp3" }
-      ];
-
-      var audio = document.getElementById('bgMusic');
-      var mBtn = document.getElementById('musicBtn');
-      var songIdx = 0;
-      var playing = false;
-      var failed = 0;
-      var resolved = {};   // index -> playable URL (cached)
-      var busy = false;
-
-      // Resolve a song to a playable URL (JioSaavn via proxy, else local MP3 fallback).
-      function resolveSong(idx, cb) {
-        if (resolved[idx]) { cb(resolved[idx]); return; }
-        var song = SONGS[idx];
-        function done(url) {
-          resolved[idx] = url || song.fallback || null;
-          cb(resolved[idx]);
-        }
-        fetch('/api/music?action=search&q=' + encodeURIComponent(song.q))
-          .then(function (r) { return r.json(); })
-          .then(function (d) {
-            var id = d && d.songs && d.songs[0] && d.songs[0].id;
-            done(id ? ('/api/music?action=play&id=' + encodeURIComponent(id) + '&quality=320') : song.fallback);
-          })
-          .catch(function () { done(song.fallback); });
-      }
-
-      function playSong(idx) {
-        busy = true;
-        resolveSong(idx, function (url) {
-          busy = false;
-          if (!url) { skip(true); return; }
-          songIdx = idx;
-          audio.src = url;
-          var p = audio.play();
-          if (p && p.then) p.catch(function () { /* retry on gesture */ });
-        });
-      }
-      function skip(silent) {
-        failed++;
-        if (failed >= SONGS.length * 2) { setBtn(false); return; } // give up
-        playSong((songIdx + 1) % SONGS.length);
-      }
-      function setBtn(on) {
-        playing = on;
-        mBtn.classList.toggle('is-muted', !on);
-        mBtn.setAttribute('aria-label', on ? 'Mute music' : 'Unmute music');
-        mBtn.title = on ? 'Music on — tap to mute' : 'Music off — tap to play';
-      }
-      function startMusic() {
-        failed = 0;
-        setBtn(true); // optimistic; cleared if it errors
-        playSong(songIdx);
-      }
-      function stopMusic() {
-        audio.pause();
-        setBtn(false);
-      }
-
-      // 24x7: advance / auto-skip on end and on failure.
-      audio.addEventListener('ended', function () { failed = 0; playSong((songIdx + 1) % SONGS.length); });
-      audio.addEventListener('playing', function () { failed = 0; setBtn(true); });
-      audio.addEventListener('error', function () {
-        if (!playing) return;
-        // Try the next song; the previous URL stays cached but will be retried next cycle.
-        setTimeout(function () { skip(true); }, 120);
-      });
-
-      audio.volume = 0.5;
-      setBtn(false);
-
-      // The single corner button: toggles mute/unmute.
-      mBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (busy) return;
-        if (playing) stopMusic(); else startMusic();
-      });
-
-      // Browsers block audio before interaction: start on the first gesture
-      // anywhere (so it plays in the background). Then the button mutes.
-      function unlock() {
-        if (playing || busy) return;
-        startMusic();
-        document.removeEventListener('pointerdown', unlock, true);
-        document.removeEventListener('keydown', unlock, true);
-      }
-      document.addEventListener('pointerdown', unlock, true);
-      document.addEventListener('keydown', unlock, true);
 
       /* ---------- fullscreen ---------- */
       var fsBtn = document.getElementById('fsBtn');

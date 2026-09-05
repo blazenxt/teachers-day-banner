@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff3c4"/>
+      <stop offset="45%" stop-color="#e8c547"/>
+      <stop offset="100%" stop-color="#8a6a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0a0805"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#c9a227" stroke-width="1.4" opacity="0.7"/>
+  <!-- mortarboard (graduation cap) -->
+  <g fill="url(#g)">
+    <path d="M32 13 L58 25 L32 37 L6 25 Z"/>
+    <path d="M18 30.4 V38 c0 4.6 7.2 7.6 14 7.6 s14-3 14-7.6 v-7.6 L32 41.6 Z" opacity="0.92"/>
+    <circle cx="53.5" cy="25" r="2.6"/>
+  </g>
+  <!-- tassel -->
+  <path d="M53.5 26.2 V38" stroke="#e8c547" stroke-width="2" stroke-linecap="round"/>
+  <path d="M53.5 38 c0 2.4 2.2 3.4 2.2 5.6" stroke="#e8c547" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>

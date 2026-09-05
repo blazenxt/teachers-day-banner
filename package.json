@@ -3,15 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "description": "Happy Teacher's Day Celebrations banner page",
-  "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "crypto-js": "^4.2.0"
+    "dev": "npx --yes serve . -l 3000",
+    "start": "npx --yes serve . -l 3000"
   }
 }
