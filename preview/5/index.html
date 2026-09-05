@@ -295,44 +295,25 @@
     .fs-btn.is-full .icon-enter { display:none; }
     .fs-btn.is-full .icon-exit { display:block; }
 
-    /* ===== MUSIC DOCK (corner mute/unmute) ===== */
-    .music-dock {
+    /* ===== MUSIC mute/unmute button (bottom-left) ===== */
+    .music-btn {
       position:fixed; left:clamp(14px,2vw,26px); bottom:clamp(14px,2.2vh,26px); z-index:50;
-      display:flex; align-items:center; gap:10px; padding:8px 16px 8px 8px; border-radius:999px;
+      appearance:none; border:1px solid rgba(201,162,39,0.5); width:46px; height:46px; border-radius:50%;
+      cursor:pointer; display:grid; place-items:center;
       background:linear-gradient(135deg, rgba(30,24,10,0.92), rgba(8,6,2,0.95));
-      border:1px solid rgba(201,162,39,0.5);
       box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 0 20px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,240,180,0.12);
-      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-      font-family:'Cinzel',Georgia,serif; color:var(--gold-2); user-select:none;
-      transition:border-color .3s ease, box-shadow .3s ease;
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); color:var(--gold-2);
+      transition:transform .18s ease, box-shadow .25s ease, border-color .25s ease, color .25s ease;
     }
-    .music-dock.playing { border-color:rgba(232,197,71,0.75);
-      box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 0 30px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,240,180,0.16); }
-    .music-btn { appearance:none; border:none; width:42px; height:42px; border-radius:50%; cursor:pointer; flex:0 0 auto;
-      display:grid; place-items:center;
-      background:linear-gradient(160deg,#e8c547 0%,#c9a227 45%,#8a6a12 100%);
-      box-shadow:0 2px 0 rgba(60,40,0,0.5), 0 0 14px rgba(212,175,55,0.35); color:#1a1205;
-      transition:transform .15s ease, filter .15s ease; }
-    .music-btn:hover { transform:scale(1.06); filter:brightness(1.08); }
-    .music-btn:active { transform:scale(0.96); }
-    .music-btn svg { width:18px; height:18px; }
-    .music-btn .ic-sound { fill:currentColor; }
-    .music-btn .ic-mute { display:none; fill:currentColor; }
-    .music-dock.muted .ic-sound { display:none; }
-    .music-dock.muted .ic-mute { display:block; }
-    .music-meta { display:flex; flex-direction:column; gap:1px; min-width:0; padding-right:4px; }
-    .music-meta .m-label { font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(232,197,71,0.65); line-height:1; }
-    .music-meta .m-title { font-size:0.72rem; font-weight:700; letter-spacing:0.04em; color:#f0d78c; white-space:nowrap; max-width:190px; overflow:hidden; text-overflow:ellipsis; line-height:1.25; }
-    /* equalizer */
-    .eq { display:flex; align-items:flex-end; gap:3px; height:15px; opacity:0.3; margin-left:2px; }
-    .music-dock.playing:not(.muted) .eq { opacity:1; }
-    .eq span { width:3px; height:4px; border-radius:1px; background:linear-gradient(180deg,#fff3c4,#d4af37); }
-    .music-dock.playing:not(.muted) .eq span { animation:eq-bounce 0.9s ease-in-out infinite; }
-    .music-dock.playing:not(.muted) .eq span:nth-child(1){animation-delay:0s;}
-    .music-dock.playing:not(.muted) .eq span:nth-child(2){animation-delay:0.15s;}
-    .music-dock.playing:not(.muted) .eq span:nth-child(3){animation-delay:0.3s;}
-    .music-dock.playing:not(.muted) .eq span:nth-child(4){animation-delay:0.1s;}
-    @keyframes eq-bounce { 0%,100%{height:4px;} 50%{height:15px;} }
+    .music-btn:hover { transform:scale(1.07); border-color:rgba(232,197,71,0.8); color:#fff3c4;
+      box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 0 30px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,240,180,0.18); }
+    .music-btn:active { transform:scale(0.95); }
+    .music-btn:focus-visible { outline:2px solid var(--gold-3); outline-offset:3px; }
+    .music-btn svg { width:21px; height:21px; fill:currentColor; }
+    .music-btn .ic-mute { display:none; }
+    .music-btn.is-muted { color:rgba(232,197,71,0.55); }
+    .music-btn.is-muted .ic-sound { display:none; }
+    .music-btn.is-muted .ic-mute { display:block; }
 
     .preview-tag {
       position:fixed; left:clamp(12px,2vw,22px); bottom:clamp(14px,2.2vh,26px); z-index:50;
@@ -495,20 +476,11 @@
       <svg class="icon-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
     </button>
 
-    <!-- 24x7 music player: mute/unmute corner control -->
-    <div class="music-dock muted" id="musicDock" role="group" aria-label="Background bhajans">
-      <button type="button" class="music-btn" id="musicBtn" aria-label="Unmute music" title="Music off — tap to play">
-        <!-- sound on -->
-        <svg class="ic-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
-        <!-- muted -->
-        <svg class="ic-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.59 3L19 9.41 17.59 8 15 10.59 12.41 8 11 9.41 13.59 12 11 14.59 12.41 16 15 13.41 17.59 16 19 14.59 16.59 12z"/></svg>
-      </button>
-      <div class="music-meta">
-        <span class="m-label">24×7 Bhajans</span>
-        <span class="m-title" id="musicTitle">Music off · Tap ▶</span>
-      </div>
-      <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-    </div>
+    <!-- Background music: single mute/unmute button (bottom-left) -->
+    <button type="button" class="music-btn is-muted" id="musicBtn" aria-label="Unmute music" title="Music off — tap to play">
+      <svg class="ic-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
+      <svg class="ic-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.59 3L19 9.41 17.59 8 15 10.59 12.41 8 11 9.41 13.59 12 11 14.59 12.41 16 15 13.41 17.59 16 19 14.59 16.59 12z"/></svg>
+    </button>
 
     <audio id="bgMusic" preload="auto" playsinline></audio>
 
@@ -664,7 +636,7 @@
       }
       // tap anywhere (except the fullscreen button) for a burst
       document.getElementById('banner').addEventListener('pointerdown', function (e) {
-        if (e.target.closest && (e.target.closest('.fs-btn') || e.target.closest('.music-dock'))) return;
+        if (e.target.closest && (e.target.closest('.fs-btn') || e.target.closest('.music-btn'))) return;
         burst(e.clientX, e.clientY);
       });
       if (!reduceMotion) {
@@ -686,82 +658,60 @@
       ];
 
       var audio = document.getElementById('bgMusic');
-      var dock = document.getElementById('musicDock');
       var mBtn = document.getElementById('musicBtn');
-      var mTitle = document.getElementById('musicTitle');
       var songIdx = 0;
-      var muted = true;            // starts muted until user starts it
-      var wantPlay = false;        // once user enables music, keep it going
-
-      function setTitle(t) { if (mTitle) mTitle.textContent = t; }
+      var playing = false;        // is audio actually on
+      var failed = 0;             // count of failed tracks this round
 
       function loadSong(i) {
         songIdx = (i + SONGS.length) % SONGS.length;
-        var s = SONGS[songIdx];
-        audio.src = s.src;
-        setTitle(muted ? "Music off · Tap ▶" : s.title);
+        audio.src = SONGS[songIdx].src;
       }
-
-      function refreshDock() {
-        dock.classList.toggle('playing', !muted && wantPlay && !audio.paused);
-        dock.classList.toggle('muted', muted);
-        mBtn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
-        mBtn.title = muted ? 'Music off — tap to play' : 'Music on — tap to mute';
+      function setBtn(on) {
+        playing = on;
+        mBtn.classList.toggle('is-muted', !on);
+        mBtn.setAttribute('aria-label', on ? 'Mute music' : 'Unmute music');
+        mBtn.title = on ? 'Music on — tap to mute' : 'Music off — tap to play';
       }
-
-      function tryPlay() {
-        wantPlay = true;
-        muted = false;
-        setTitle(SONGS[songIdx].title);
+      function startMusic() {
+        failed = 0;
+        loadSong(songIdx);
         var p = audio.play();
-        if (p && typeof p.then === 'function') {
-          p.then(function () { refreshDock(); }).catch(function () {
-            // will retry on first user gesture
-            wantPlay = false; refreshDock();
-          });
-        }
-        refreshDock();
+        if (p && p.then) p.then(function(){ setBtn(true); }).catch(function(){ setBtn(false); });
+        else setBtn(!audio.paused);
       }
-
-      function doMute() {
-        muted = true; wantPlay = false;
+      function stopMusic() {
         audio.pause();
-        refreshDock();
-        setTitle("Music off · Tap ▶");
+        setBtn(false);
       }
 
-      // Skip to the next song if the current file is missing/fails.
-      audio.addEventListener('error', function () {
-        if (!wantPlay) return;
-        var next = songIdx + 1;
-        if (next % SONGS.length === 0) { // cycled through all and none worked
-          setTitle("Add MP3s to /assets/audio/");
-          wantPlay = false; refreshDock();
-          return;
-        }
-        loadSong(next);
-        var p = audio.play();
-        if (p && p.catch) p.catch(function () {});
-      });
-      // When a track ends, go to the next (also keeps it running 24x7).
+      // Next track when one ends (keeps it going 24x7).
       audio.addEventListener('ended', function () { loadSong(songIdx + 1); var p = audio.play(); if (p && p.catch) p.catch(function(){}); });
+      // Auto-skip missing/failed tracks.
+      audio.addEventListener('error', function () {
+        failed++;
+        if (failed >= SONGS.length) { setBtn(false); return; }  // no files found
+        loadSong(songIdx + 1);
+        var p = audio.play(); if (p && p.catch) p.catch(function(){});
+      });
+      audio.addEventListener('playing', function () { failed = 0; setBtn(true); });
 
-      loadSong(0);
       audio.volume = 0.5;
-      refreshDock();
+      loadSong(0);
+      setBtn(false);
 
+      // The single corner button: toggles mute/unmute.
       mBtn.addEventListener('click', function (e) {
         e.stopPropagation();
-        if (muted) tryPlay(); else doMute();
+        if (playing) stopMusic(); else startMusic();
       });
 
-      // Autoplay-unlock: on the FIRST user gesture anywhere, start music
-      // (browsers block audio before interaction). After that it keeps
-      // playing and the corner button toggles mute/unmute.
+      // Browsers block audio before interaction: start on the first gesture
+      // anywhere (so it plays in the background). Then the button mutes.
       function unlock() {
-        if (wantPlay) return;
-        tryPlay();
-        if (wantPlay && !audio.paused) {
+        if (playing) return;
+        startMusic();
+        if (playing) {
           document.removeEventListener('pointerdown', unlock, true);
           document.removeEventListener('keydown', unlock, true);
         }
