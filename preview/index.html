@@ -44,12 +44,24 @@
     }
     .sub { margin-top:14px; font-style:italic; font-size:clamp(1rem,2.2vw,1.25rem); color:#d4b85a; }
 
+    .group { width:min(920px,94vw); z-index:1; }
+    .group + .group { margin-top:clamp(34px,5.5vh,60px); }
+    .group-title {
+      font-family:'Cinzel',Georgia,serif; font-weight:800; text-transform:uppercase;
+      letter-spacing:0.22em; font-size:clamp(0.85rem,2.3vw,1.1rem); text-align:center;
+      color:#f0d78c; margin:0 0 clamp(18px,3vh,26px);
+      display:flex; align-items:center; justify-content:center; gap:14px;
+    }
+    .group-title::before, .group-title::after { content:""; width:clamp(26px,8vw,64px); height:1px;
+      background:linear-gradient(90deg,transparent,rgba(201,162,39,0.7)); }
+    .group-title::after { background:linear-gradient(90deg,rgba(201,162,39,0.7),transparent); }
+    .group-title .new { font-family:'Cinzel',Georgia,serif; font-size:0.55rem; font-weight:700;
+      letter-spacing:0.14em; color:#1a1205; background:linear-gradient(180deg,#f5e09a,#c9a227);
+      padding:3px 9px; border-radius:999px; box-shadow:0 0 12px rgba(232,197,71,0.5); }
     .cards {
-      margin-top:clamp(30px,5vh,54px);
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
       gap:22px;
-      width:min(920px,94vw);
       z-index:1;
     }
     .card {
@@ -102,12 +114,32 @@
   <div class="frame" aria-hidden="true"></div>
 
   <header>
-    <div class="eyebrow">Banner Preview</div>
-    <h1>Preview Versions</h1>
-    <p class="sub">Choose a version to open. Review the latest before it goes live on <code>/</code>.</p>
+    <div class="eyebrow">Previews</div>
+    <h1>Preview Center</h1>
+    <p class="sub">The celebration banner and the personal Teacher's Day wishing page — review here before going live.</p>
   </header>
 
-  <main class="cards">
+  <!-- ===== WISHING PAGE ===== -->
+  <section class="group">
+    <h2 class="group-title">Wishing Page <span class="new">New</span></h2>
+    <div class="cards">
+      <div class="card" data-go="/nxt/preview/1/" style="cursor:pointer" tabindex="0">
+        <span class="badge-latest">Latest</span>
+        <div class="v">Wishing · v1</div>
+        <p class="desc">Personal card to send a teacher directly. Enter the teacher's name &amp; your name on <code>/nxt/custom/new</code> — it instantly makes a shareable live link <code>/nxt/custom/teacher/you/</code>. Gold theme, confetti, copy-link. Separate from the banner.</p>
+        <span class="links">
+          <a href="/nxt/preview/1/">Open →</a>
+          <a href="/nxt/preview/1/custom/new">Create form</a>
+          <a href="/nxt/preview/1/custom/mrs-sharma/aarav/">Sample</a>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BANNER ===== -->
+  <section class="group">
+    <h2 class="group-title">Celebration Banner</h2>
+    <div class="cards">
     <div class="card" data-go="/preview/5/" style="cursor:pointer" tabindex="0">
       <span class="badge-latest">Latest</span>
       <div class="v">Version 5</div>
@@ -153,10 +185,13 @@
         <a href="/preview/1/devices">Devices</a>
       </span>
     </div>
-  </main>
+    </div>
+  </section>
 
   <footer>
-    <a href="/">← Back to live site</a>
+    <a href="/">← Back to live banner</a>
+    &nbsp;·&nbsp;
+    <a href="/nxt/">Open wishing page →</a>
   </footer>
 <script>
   document.querySelectorAll('.card').forEach(function(card){

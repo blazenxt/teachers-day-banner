@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teacher's Day Wishes</title>
+<meta name="theme-color" content="#000000" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Great+Vibes&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --gold:#e8c547; --gold-soft:#f0d78c; --gold-dim:#c9a227; --ink:#0a0702;
+  }
+  html,body { min-height:100%; background:#000; }
+  body {
+    font-family:'Cormorant Garamond',Georgia,serif; color:var(--gold-soft);
+    background:
+      radial-gradient(ellipse 90% 65% at 50% 30%, #1a1208 0%, #0a0700 55%, #000 100%);
+    min-height:100vh; min-height:100dvh; overflow-x:hidden;
+    display:flex; align-items:center; justify-content:center;
+    padding:clamp(18px,4vh,48px) 18px;
+    position:relative;
+  }
+  /* ambient sparkles */
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      radial-gradient(2px 2px at 12% 22%, rgba(240,215,140,0.8), transparent 60%),
+      radial-gradient(1.5px 1.5px at 82% 18%, rgba(240,215,140,0.7), transparent 60%),
+      radial-gradient(2px 2px at 68% 78%, rgba(240,215,140,0.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 22% 82%, rgba(240,215,140,0.7), transparent 60%),
+      radial-gradient(1px 1px at 50% 12%, rgba(240,215,140,0.6), transparent 60%);
+    animation:tw 4s ease-in-out infinite;
+  }
+  @keyframes tw { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+
+  .frame { position:fixed; inset:clamp(10px,2vh,22px) clamp(12px,2.4vw,30px);
+    border:1.5px solid rgba(201,162,39,0.6); pointer-events:none; z-index:1; }
+  .frame::after { content:""; position:absolute; inset:6px; border:1px solid rgba(212,175,55,0.22); }
+
+  .confetti { position:fixed; inset:0; z-index:2; pointer-events:none; }
+  .wrap { position:relative; z-index:3; width:min(640px,100%); text-align:center; }
+
+  .view { display:none; animation:rise .8s ease both; }
+  .view.on { display:block; }
+  @keyframes rise { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+
+  .eyebrow {
+    font-family:'Cinzel',Georgia,serif; font-weight:600;
+    font-size:clamp(0.6rem,1.8vw,0.78rem); letter-spacing:0.4em; text-transform:uppercase;
+    color:rgba(232,197,71,0.85); margin-bottom:clamp(14px,2.6vh,22px);
+    display:flex; align-items:center; justify-content:center; gap:14px;
+  }
+  .eyebrow::before,.eyebrow::after { content:""; width:clamp(24px,7vw,54px); height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold-dim)); }
+  .eyebrow::after { background:linear-gradient(90deg,var(--gold-dim),transparent); }
+
+  .cap { width:clamp(54px,13vw,86px); height:auto; margin:0 auto clamp(14px,2.4vh,20px);
+    filter:drop-shadow(0 0 14px rgba(212,175,55,0.5)); animation:floaty 6s ease-in-out infinite; }
+  @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
+
+  h1.title {
+    font-family:'Cinzel',Georgia,serif; font-weight:900; text-transform:uppercase;
+    font-size:clamp(1.5rem,6.5vw,2.9rem); line-height:1.08; letter-spacing:0.06em;
+    background:linear-gradient(175deg,#fffef5,#fff8d0 12%,#f5e09a 28%,#e8c547 46%,#d4af37 62%,#a07818 86%,#f0d78c);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 20px rgba(212,175,55,0.3));
+  }
+  .script { font-family:'Great Vibes',cursive; font-weight:400;
+    font-size:clamp(2rem,9vw,3.4rem); color:var(--gold); line-height:1.1;
+    text-shadow:0 0 18px rgba(212,175,55,0.35); margin:clamp(6px,1.4vh,12px) 0; }
+
+  .divider { display:flex; align-items:center; justify-content:center; gap:12px;
+    margin:clamp(16px,3vh,26px) auto; width:min(320px,80%); }
+  .divider .line { height:1px; flex:1; background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
+  .divider .jewel { width:9px; height:9px; transform:rotate(45deg);
+    background:linear-gradient(135deg,#f5e09a,#c9a227); box-shadow:0 0 10px rgba(232,197,71,0.7); flex:none; }
+
+  .lead { font-size:clamp(1.05rem,3.4vw,1.35rem); line-height:1.5; color:#e6cb72; }
+  .lead .em { color:#fff3c4; font-style:italic; }
+
+  .btn {
+    display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+    font-family:'Cinzel',Georgia,serif; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.12em; font-size:clamp(0.78rem,2.6vw,0.95rem); color:#1a1205;
+    padding:clamp(13px,2.4vh,16px) clamp(26px,7vw,40px); border-radius:999px; border:none;
+    background:linear-gradient(180deg,#f5e09a,#e8c547 45%,#c9a227);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5), 0 0 22px rgba(212,175,55,0.35);
+    transition:transform .2s ease, box-shadow .2s ease; text-decoration:none;
+  }
+  .btn:hover { transform:translateY(-2px) scale(1.02); box-shadow:0 14px 36px rgba(0,0,0,0.55), 0 0 30px rgba(212,175,55,0.5); }
+  .btn.ghost { background:rgba(212,175,55,0.08); color:var(--gold-soft);
+    border:1px solid rgba(201,162,39,0.55); box-shadow:none; font-size:clamp(0.7rem,2.2vw,0.82rem);
+    padding:11px 22px; }
+  .btn.ghost:hover { background:rgba(212,175,55,0.18); }
+
+  .cta-row { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:clamp(22px,4vh,34px); }
+
+  /* form */
+  .form-card {
+    width:min(460px,94%); margin:0 auto; text-align:left;
+    border:1px solid rgba(201,162,39,0.4); border-radius:18px;
+    background:linear-gradient(160deg, rgba(30,24,10,0.85), rgba(8,6,2,0.92));
+    box-shadow:0 18px 50px rgba(0,0,0,0.55), 0 0 26px rgba(212,175,55,0.1);
+    padding:clamp(22px,5vw,34px);
+  }
+  .field { margin-bottom:20px; }
+  .field label { display:block; font-family:'Cinzel',Georgia,serif; font-weight:600;
+    font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold);
+    margin-bottom:9px; }
+  .field input {
+    width:100%; padding:14px 16px; border-radius:12px;
+    border:1px solid rgba(201,162,39,0.45); background:rgba(0,0,0,0.4);
+    color:#fff3c4; font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.15rem; outline:none; transition:border-color .2s, box-shadow .2s;
+  }
+  .field input::placeholder { color:rgba(212,175,55,0.4); }
+  .field input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(232,197,71,0.18); }
+  .field .hint { font-size:0.92rem; color:rgba(212,175,55,0.6); margin-top:6px; font-style:italic; }
+  .form-card .btn { width:100%; justify-content:center; }
+
+  /* wish view */
+  .tname {
+    font-family:'Great Vibes',cursive; font-weight:400;
+    font-size:clamp(2.6rem,13vw,4.6rem); line-height:1.05;
+    background:linear-gradient(180deg,#fff8d0,#f0d78c 40%,#e8c547 65%,#b8922a);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 22px rgba(212,175,55,0.4)); margin:clamp(4px,1vh,8px) 0;
+    word-break:break-word;
+  }
+  .msg { font-size:clamp(1.05rem,3.6vw,1.4rem); line-height:1.6; color:#ead9a0;
+    max-width:30em; margin:clamp(10px,2vh,18px) auto 0; }
+  .msg .em { color:#fff3c4; font-style:italic; }
+  .sfrom { margin-top:clamp(20px,4vh,32px); }
+  .sfrom .lbl { font-family:'Cinzel',Georgia,serif; font-size:0.7rem; letter-spacing:0.28em;
+    text-transform:uppercase; color:rgba(232,197,71,0.7); }
+  .sfrom .sname { font-family:'Great Vibes',cursive; font-size:clamp(1.9rem,8vw,2.8rem);
+    color:var(--gold); margin-top:4px; text-shadow:0 0 14px rgba(212,175,55,0.3); word-break:break-word; }
+
+  .toast {
+    position:fixed; left:50%; bottom:clamp(20px,5vh,40px); transform:translateX(-50%) translateY(20px);
+    background:linear-gradient(180deg,#f5e09a,#c9a227); color:#1a1205;
+    font-family:'Cinzel',Georgia,serif; font-weight:700; font-size:0.8rem; letter-spacing:0.08em;
+    padding:12px 22px; border-radius:999px; opacity:0; pointer-events:none; z-index:20;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5); transition:opacity .3s, transform .3s;
+  }
+  .toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .tag { position:fixed; left:clamp(10px,2vw,18px); bottom:clamp(10px,2vh,18px); z-index:30;
+    font-family:'Cinzel',Georgia,serif; font-size:0.6rem; font-weight:700; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold-soft); padding:6px 12px; border-radius:999px;
+    border:1px solid rgba(201,162,39,0.5); background:rgba(10,7,2,0.8); pointer-events:none; }
+  .back { position:fixed; right:clamp(12px,2.4vw,22px); top:clamp(12px,2.4vh,22px); z-index:30;
+    font-family:'Cinzel',Georgia,serif; font-size:0.66rem; font-weight:700; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--gold-soft); text-decoration:none; padding:8px 14px;
+    border-radius:999px; border:1px solid rgba(201,162,39,0.45); background:rgba(10,7,2,0.7); }
+  .back:hover { background:rgba(212,175,55,0.15); }
+  @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important;} }
+</style>
+</head>
+<body>
+  <div class="frame" aria-hidden="true"></div>
+  <canvas class="confetti" id="confetti"></canvas>
+  <a class="back" href="/">← Banner</a>
+  <div class="tag" id="tag" style="display:none">Preview · Wishing v1</div>
+
+  <main class="wrap">
+
+    <!-- LANDING -->
+    <section class="view" id="view-landing">
+      <div class="eyebrow">Teacher's Day · Personal Wish</div>
+      <svg class="cap" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M6 28 L32 14 L58 28 L32 42 Z" fill="url(#g1)" stroke="#8a6a12" stroke-width="1"/>
+        <path d="M16 34v12s8 7 16 7 16-7 16-7V34" fill="none" stroke="#e8c547" stroke-width="2.4"/>
+        <path d="M58 28v13" stroke="#e8c547" stroke-width="2.4"/>
+        <circle cx="58" cy="43" r="2.6" fill="#f5e09a"/>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5e09a"/><stop offset="100%" stop-color="#a07818"/></linearGradient></defs>
+      </svg>
+      <h1 class="title">Happy Teacher's Day</h1>
+      <div class="script">with all our hearts</div>
+      <div class="divider"><span class="line"></span><span class="jewel"></span><span class="line"></span></div>
+      <p class="lead">Send a <span class="em">personal wish</span> to your favourite teacher —<br/>with their name and yours, in a beautiful card made just for them.</p>
+      <div class="cta-row">
+        <a class="btn" id="landingCreate" href="custom/new">✦ Create a Wish</a>
+        <a class="btn ghost" id="landingDemo" href="#">See a Sample</a>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="view" id="view-form">
+      <div class="eyebrow">Make it Personal</div>
+      <form class="form-card" id="wishForm" autocomplete="off">
+        <div class="field">
+          <label for="teacher">Teacher's Name</label>
+          <input id="teacher" name="teacher" type="text" maxlength="40" placeholder="e.g. Mrs. Sharma" required />
+          <div class="hint">Jinko wish bhejni hai — guru ka naam.</div>
+        </div>
+        <div class="field">
+          <label for="student">Your Name</label>
+          <input id="student" name="student" type="text" maxlength="40" placeholder="e.g. Aarav" required />
+          <div class="hint">Aapka naam — wish ke neeche aayega.</div>
+        </div>
+        <button class="btn" type="submit">Create My Wish ✦</button>
+      </form>
+      <div class="cta-row">
+        <a class="btn ghost" id="formDemo" href="#">See a Sample Instead</a>
+      </div>
+    </section>
+
+    <!-- WISH -->
+    <section class="view" id="view-wish">
+      <div class="eyebrow">Happy Teacher's Day</div>
+      <div class="script">Dear</div>
+      <div class="tname" id="wTeacher">Teacher</div>
+      <div class="divider"><span class="line"></span><span class="jewel"></span><span class="line"></span></div>
+      <p class="msg">Thank you for being more than a teacher — a <span class="em">guide, a mentor, and an inspiration</span>.
+        Your patience, wisdom and belief in me have shaped who I am today.
+        On this Teacher's Day, I want you to know that <span class="em">every lesson you taught lives on</span>, and I am truly grateful. 💛</p>
+      <div class="sfrom">
+        <div class="lbl">With gratitude &amp; respect, from</div>
+        <div class="sname" id="wStudent">Your Student</div>
+      </div>
+      <div class="cta-row">
+        <button class="btn" id="copyBtn" type="button">🔗 Copy Wish Link</button>
+        <button class="btn ghost" id="burstBtn" type="button">🎉 Celebrate</button>
+      </div>
+      <div class="cta-row">
+        <a class="btn ghost" id="wishCreate" href="custom/new">✦ Make Your Own Wish</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast">Link copied!</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- helpers ---------- */
+  function slugify(s) {
+    return String(s).trim().toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9ऀ-ॿ\-_.]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  function titleCase(s) {
+    return s.toLowerCase().replace(/(^|[\s.-])([a-z])/g, function (m, pre, ch) {
+      return pre + ch.toUpperCase();
+    });
+  }
+  function prettyFromSlug(slug) {
+    var raw = decodeURIComponent(String(slug).replace(/-/g, ' ')).replace(/\s+/g, ' ').trim();
+    return titleCase(raw);
+  }
+
+  /* ---------- routing ---------- */
+  var path = decodeURIComponent(location.pathname);
+  var parts = path.split('/').filter(Boolean);          // e.g. ['nxt','custom','mrs-sharma','aarav']
+  var idx = parts.indexOf('custom');
+  var mode = 'landing', teacher = '', student = '', base = '/nxt/';
+
+  if (parts[0] === 'nxt' && parts[1] === 'preview' && parts[2]) {
+    base = '/nxt/preview/' + parts[2] + '/';
+    idx = parts.indexOf('custom');                       // locate custom inside preview
+  }
+  if (idx !== -1 && parts[idx + 1] && parts[idx + 1] !== 'new') {
+    mode = 'wish';
+    teacher = prettyFromSlug(parts[idx + 1]);
+    student = prettyFromSlug(parts[idx + 2] || '');
+  } else if (idx !== -1 && parts[idx + 1] === 'new') {
+    mode = 'form';
+  } else if (/(^|\/)nxt(\/|$)/.test(path)) {
+    mode = 'landing';
+  }
+
+  if (/\/preview\//.test(base)) document.getElementById('tag').style.display = 'block';
+
+  /* ---------- wire links ---------- */
+  function setHref(id, href) { var el = document.getElementById(id); if (el) el.href = href; }
+  setHref('landingCreate', base + 'custom/new');
+  setHref('formDemo', base + 'custom/mrs-sharma/aarav/');
+  setHref('landingDemo', base + 'custom/mrs-sharma/aarav/');
+  setHref('wishCreate', base + 'custom/new');
+
+  /* ---------- render view ---------- */
+  function show(id) {
+    ['landing', 'form', 'wish'].forEach(function (v) {
+      document.getElementById('view-' + v).classList.toggle('on', v === id);
+    });
+  }
+
+  if (mode === 'form') show('form');
+  else if (mode === 'wish') {
+    document.getElementById('wTeacher').textContent = teacher || 'Teacher';
+    document.getElementById('wStudent').textContent = student ? '— ' + student : '— Your Student';
+    show('wish');
+    fire(140, 70);
+    setTimeout(function () { fire(70, 90); }, 600);
+  } else show('landing');
+
+  /* ---------- form submit ---------- */
+  var form = document.getElementById('wishForm');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = document.getElementById('teacher').value;
+    var s = document.getElementById('student').value;
+    var ts = slugify(t), ss = slugify(s);
+    if (!ts || !ss) return;
+    location.href = base + 'custom/' + encodeURIComponent(ts) + '/' + encodeURIComponent(ss) + '/';
+  });
+
+  /* ---------- copy link ---------- */
+  var toast = document.getElementById('toast'), toastT = null;
+  function showToast(msg) {
+    toast.textContent = msg; toast.classList.add('on');
+    clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove('on'); }, 2200);
+  }
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    var url = location.href;
+    function done() { showToast('Wish link copied!'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, function () { fallbackCopy(url); done(); });
+    } else { fallbackCopy(url); done(); }
+  });
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  document.getElementById('burstBtn').addEventListener('click', function () { fire(160, 80); });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a,button,input')) return;
+    fire(40, 50);
+  });
+
+  /* ---------- confetti ---------- */
+  var canvas = document.getElementById('confetti'), ctx = canvas.getContext('2d');
+  var W = 0, H = 0, pieces = [];
+  var COLORS = ['#f5e09a', '#e8c547', '#d4af37', '#c9a227', '#fff3c4', '#a07818'];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function fire(n, power) {
+    for (var i = 0; i < n; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var vel = (Math.random() * (power || 70)) + 20;
+      pieces.push({
+        x: W / 2 + (Math.random() - 0.5) * W * 0.25,
+        y: H * 0.32 + (Math.random() - 0.5) * 40,
+        vx: Math.cos(ang) * vel * (0.6 + Math.random() * 0.8),
+        vy: Math.sin(ang) * vel - Math.random() * 40 - 30,
+        g: 0.16 + Math.random() * 0.12,
+        size: 4 + Math.random() * 6,
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.3,
+        life: 1, decay: 0.004 + Math.random() * 0.008,
+        shape: Math.random() < 0.25 ? 'circle' : 'rect'
+      });
+    }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = pieces.length - 1; i >= 0; i--) {
+      var p = pieces[i];
+      p.vy += p.g; p.x += p.vx * 0.06; p.y += p.vy * 0.06;
+      p.vx *= 0.99; p.rot += p.vr; p.life -= p.decay;
+      if (p.life <= 0 || p.y > H + 30) { pieces.splice(i, 1); continue; }
+      ctx.save(); ctx.globalAlpha = Math.max(0, p.life);
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color;
+      if (p.shape === 'circle') { ctx.beginPath(); ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2); ctx.fill(); }
+      else { ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6); }
+      ctx.restore();
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/nxt/preview/1/custom/new", "destination": "/nxt/preview/1/wish.html" },
+    { "source": "/nxt/preview/1/custom/:teacher/:student", "destination": "/nxt/preview/1/wish.html" },
+    { "source": "/nxt/custom/new", "destination": "/nxt/wish.html" },
+    { "source": "/nxt/custom/:teacher/:student", "destination": "/nxt/wish.html" }
+  ]
+}
