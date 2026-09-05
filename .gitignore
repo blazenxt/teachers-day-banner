@@ -6,3 +6,6 @@ node_modules/
 
 # generated audio intermediates
 assets/audio/*.wav
+
+# background music mp3s (copyrighted, add locally / via host)
+assets/audio/*.mp3
