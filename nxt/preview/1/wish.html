@@ -83,10 +83,10 @@
   .lead .em { color:#fff3c4; font-style:italic; }
 
   .btn {
-    display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; cursor:pointer;
     font-family:'Cinzel',Georgia,serif; font-weight:700; text-transform:uppercase;
     letter-spacing:0.12em; font-size:clamp(0.78rem,2.6vw,0.95rem); color:#1a1205;
-    padding:clamp(13px,2.4vh,16px) clamp(26px,7vw,40px); border-radius:999px; border:none;
+    padding:clamp(13px,2.4vh,16px) clamp(26px,7vw,40px); border-radius:999px; border:1px solid transparent;
     background:linear-gradient(180deg,#f5e09a,#e8c547 45%,#c9a227);
     box-shadow:0 10px 30px rgba(0,0,0,0.5), 0 0 22px rgba(212,175,55,0.35);
     transition:transform .2s ease, box-shadow .2s ease; text-decoration:none;
@@ -98,6 +98,13 @@
   .btn.ghost:hover { background:rgba(212,175,55,0.18); }
 
   .cta-row { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:clamp(22px,4vh,34px); }
+
+  /* inline SVG icons */
+  .ic { width:1.1em; height:1.1em; flex:none; vertical-align:-0.18em; }
+  .ic.fill { fill:currentColor; }
+  .ic.stroke { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .ic.heart { fill:#e8c547; width:1.15em; height:1.15em; vertical-align:-0.22em;
+    filter:drop-shadow(0 0 6px rgba(232,197,71,0.6)); }
 
   /* form */
   .form-card {
@@ -120,7 +127,7 @@
   .field input::placeholder { color:rgba(212,175,55,0.4); }
   .field input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(232,197,71,0.18); }
   .field .hint { font-size:0.92rem; color:rgba(212,175,55,0.6); margin-top:6px; font-style:italic; }
-  .form-card .btn { width:100%; justify-content:center; }
+  .form-card .btn { width:100%; }
 
   /* wish view */
   .tname {
@@ -162,9 +169,19 @@
 </style>
 </head>
 <body>
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2c.45 4.1 2.3 5.95 6.4 6.4-4.1.45-5.95 2.3-6.4 6.4-.45-4.1-2.3-5.95-6.4-6.4C9.7 7.95 11.55 6.1 12 2z"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.6 14.4l4.8-4.8"/><path d="M8.4 11.6l-1.5 1.5a3.6 3.6 0 0 0 5.1 5.1l1.5-1.5"/><path d="M15.6 12.4l1.5-1.5a3.6 3.6 0 0 0-5.1-5.1l-1.5 1.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.7S3.9 15.6 3.9 9.9C3.9 6.9 6.1 5 8.5 5c1.6 0 2.9.8 3.5 2 .6-1.2 1.9-2 3.5-2 2.4 0 4.6 1.9 4.6 4.9 0 5.7-8.1 10.8-8.1 10.8z"/></symbol>
+  </svg>
+
   <div class="frame" aria-hidden="true"></div>
   <canvas class="confetti" id="confetti"></canvas>
-  <a class="back" href="/">← Banner</a>
+  <a class="back" href="/">
+    <svg class="ic stroke" style="width:0.9em;height:0.9em;vertical-align:-0.05em"><path d="M15 5l-7 7 7 7"/></svg>
+    Banner
+  </a>
   <div class="tag" id="tag" style="display:none">Preview · Wishing v1</div>
 
   <main class="wrap">
@@ -184,8 +201,9 @@
       <div class="divider"><span class="line"></span><span class="jewel"></span><span class="line"></span></div>
       <p class="lead">Send a <span class="em">personal wish</span> to your favourite teacher —<br/>with their name and yours, in a beautiful card made just for them.</p>
       <div class="cta-row">
-        <a class="btn" id="landingCreate" href="custom/new">✦ Create a Wish</a>
-        <a class="btn ghost" id="landingDemo" href="#">See a Sample</a>
+        <a class="btn" id="landingCreate" href="custom/new">
+          <svg class="ic fill"><use href="#i-spark"/></svg> Create a Wish
+        </a>
       </div>
     </section>
 
@@ -203,11 +221,10 @@
           <input id="student" name="student" type="text" maxlength="40" placeholder="e.g. Aarav" required />
           <div class="hint">Aapka naam — wish ke neeche aayega.</div>
         </div>
-        <button class="btn" type="submit">Create My Wish ✦</button>
+        <button class="btn" type="submit">
+          <svg class="ic fill"><use href="#i-spark"/></svg> Create My Wish
+        </button>
       </form>
-      <div class="cta-row">
-        <a class="btn ghost" id="formDemo" href="#">See a Sample Instead</a>
-      </div>
     </section>
 
     <!-- WISH -->
@@ -218,17 +235,21 @@
       <div class="divider"><span class="line"></span><span class="jewel"></span><span class="line"></span></div>
       <p class="msg">Thank you for being more than a teacher — a <span class="em">guide, a mentor, and an inspiration</span>.
         Your patience, wisdom and belief in me have shaped who I am today.
-        On this Teacher's Day, I want you to know that <span class="em">every lesson you taught lives on</span>, and I am truly grateful. 💛</p>
+        On this Teacher's Day, I want you to know that <span class="em">every lesson you taught lives on</span>, and I am truly grateful.
+        <svg class="ic heart"><use href="#i-heart"/></svg></p>
       <div class="sfrom">
         <div class="lbl">With gratitude &amp; respect, from</div>
         <div class="sname" id="wStudent">Your Student</div>
       </div>
       <div class="cta-row">
-        <button class="btn" id="copyBtn" type="button">🔗 Copy Wish Link</button>
-        <button class="btn ghost" id="burstBtn" type="button">🎉 Celebrate</button>
+        <button class="btn" id="copyBtn" type="button">
+          <svg class="ic stroke" style="width:1.05em;height:1.05em"><use href="#i-link"/></svg> Copy Wish Link
+        </button>
       </div>
       <div class="cta-row">
-        <a class="btn ghost" id="wishCreate" href="custom/new">✦ Make Your Own Wish</a>
+        <a class="btn ghost" id="wishCreate" href="custom/new">
+          <svg class="ic fill" style="width:0.95em;height:0.95em"><use href="#i-spark"/></svg> Make Your Own Wish
+        </a>
       </div>
     </section>
 
@@ -280,11 +301,9 @@
 
   if (/\/preview\//.test(base)) document.getElementById('tag').style.display = 'block';
 
-  /* ---------- wire links ---------- */
-  function setHref(id, href) { var el = document.getElementById(id); if (el) el.href = href; }
+  /* ---------- wire links (relative to base so it works live + in preview) ---------- */
+  function setHref(id, href) { var el = document.getElementById(id); if (el) el.setAttribute('href', href); }
   setHref('landingCreate', base + 'custom/new');
-  setHref('formDemo', base + 'custom/mrs-sharma/aarav/');
-  setHref('landingDemo', base + 'custom/mrs-sharma/aarav/');
   setHref('wishCreate', base + 'custom/new');
 
   /* ---------- render view ---------- */
@@ -310,34 +329,54 @@
     var t = document.getElementById('teacher').value;
     var s = document.getElementById('student').value;
     var ts = slugify(t), ss = slugify(s);
-    if (!ts || !ss) return;
+    if (!ts || !ss) {
+      document.getElementById(!ts ? 'teacher' : 'student').focus();
+      return;
+    }
     location.href = base + 'custom/' + encodeURIComponent(ts) + '/' + encodeURIComponent(ss) + '/';
   });
 
-  /* ---------- copy link ---------- */
+  /* ---------- copy link (robust: Clipboard API + execCommand fallback) ---------- */
   var toast = document.getElementById('toast'), toastT = null;
   function showToast(msg) {
     toast.textContent = msg; toast.classList.add('on');
-    clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove('on'); }, 2200);
+    clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove('on'); }, 2400);
+  }
+  function copyText(text) {
+    return new Promise(function (resolve) {
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.top = '-9999px';
+        ta.style.left = '-9999px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        resolve(ok);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { resolve(true); }, fallback);
+      } else {
+        fallback();
+      }
+    });
   }
   document.getElementById('copyBtn').addEventListener('click', function () {
-    var url = location.href;
-    function done() { showToast('Wish link copied!'); }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(done, function () { fallbackCopy(url); done(); });
-    } else { fallbackCopy(url); done(); }
+    copyText(location.href).then(function (ok) {
+      showToast(ok ? 'Wish link copied — share it!' : 'Could not copy — long-press the address bar to copy');
+    });
   });
-  function fallbackCopy(text) {
-    var ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch (e) {}
-    document.body.removeChild(ta);
-  }
-  document.getElementById('burstBtn').addEventListener('click', function () { fire(160, 80); });
+
+  /* tap anywhere (not on controls) for a little confetti */
   document.addEventListener('click', function (e) {
-    if (e.target.closest('a,button,input')) return;
-    fire(40, 50);
+    if (e.target.closest('a,button,input,label')) return;
+    fire(36, 50);
   });
 
   /* ---------- confetti ---------- */
