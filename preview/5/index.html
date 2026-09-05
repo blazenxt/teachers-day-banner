@@ -133,12 +133,13 @@
     .tl{top:-2px;left:-2px;} .tr{top:-2px;right:-2px;transform:scaleX(-1);}
     .bl{bottom:-2px;left:-2px;transform:scaleY(-1);} .br{bottom:-2px;right:-2px;transform:scale(-1);}
 
-    /* Live clock */
+    /* Live clock — kept inside the frame, above the scene so it never
+       overlaps the frame's top line or the content header. */
     .clock {
-      position: absolute; top: clamp(26px, 3.6vh, 44px); left: 50%;
-      transform: translateX(-50%); z-index: 6; text-align: center; pointer-events: none;
+      position: absolute; top: clamp(20px, 3.1vh, 38px); left: 50%;
+      transform: translateX(-50%); z-index: 8; text-align: center; pointer-events: none;
       font-family: 'Cinzel', Georgia, serif; color: #f0d78c; line-height: 1.15;
-      text-shadow: 0 0 12px rgba(212,175,55,0.45);
+      text-shadow: 0 0 12px rgba(212,175,55,0.55), 0 1px 6px rgba(0,0,0,0.8);
     }
     .clock .c-time { font-size: calc(20 * var(--u)); font-weight: 700; letter-spacing: 0.14em; }
     .clock .c-date { font-size: calc(12 * var(--u)); letter-spacing: 0.24em; color: rgba(232,197,71,0.75); margin-top: 2px; text-transform: uppercase; }
@@ -155,6 +156,12 @@
       will-change: opacity, transform;
     }
     .scene.active { opacity: 1; visibility: visible; transform: translateY(0); z-index: 2; }
+
+    /* Hero content wrapper — center everything (fixes off-center bottom-mark) */
+    .content {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; width: 100%; height: 100%;
+    }
 
     @keyframes rise-in { from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
 
@@ -232,8 +239,9 @@
     .date-badge .spark { position:static; width:auto; height:auto; border-radius:0; background:transparent; box-shadow:none;
       animation:none; opacity:1; font-size:0.7em; color:var(--gold-3); text-shadow:0 0 8px rgba(255,220,120,0.85); }
 
-    .bottom-mark { margin-top: calc(22 * var(--u)); width: calc(160 * var(--u)); height: calc(14 * var(--u)); position:relative; opacity:0.9; }
-    .bottom-mark svg { width:100%; height:100%; }
+    .bottom-mark { margin-top: calc(22 * var(--u)); margin-left:auto; margin-right:auto;
+      width: calc(160 * var(--u)); height: calc(14 * var(--u)); position:relative; opacity:0.9; flex:none; }
+    .bottom-mark svg { width:100%; height:100%; display:block; }
     .signoff { margin-top: calc(18 * var(--u)); font-family:'Great Vibes',cursive; font-size: calc(28 * var(--u));
       color: rgba(232,197,71,0.85); letter-spacing:0.04em; text-shadow:0 0 12px rgba(212,175,55,0.3); animation: fade-down 1s ease 0.9s backwards; }
     @keyframes fade-down { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
