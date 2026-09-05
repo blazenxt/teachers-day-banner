@@ -645,27 +645,61 @@
         setInterval(celebrate, 6500);          // frequent periodic celebration
       }
 
-      /* ---------- 24x7 bhajan player ----------
-         Add your MP3 files to /assets/audio/ (e.g. guruvar.mp3) OR put full
-         https:// links in 'src'. Any track that fails/missing is auto-skipped
-         to the next. Autoplay is unlocked on the first tap/click anywhere. */
+      /* ---------- 24x7 bhajan player (JioSaavn via /api/music proxy) ----------
+         Tracks are searched by name on JioSaavn and played from the CDN
+         through our own Vercel proxy (no MP3 files needed). If a track can't
+         be resolved/played it is auto-skipped. Optional: put local MP3s in
+         'fallback' (assets/audio/...) and they are used if the proxy fails.
+         Autoplay unlocks on the first tap/click anywhere. */
       var SONGS = [
-        { title: "Guruvar Tere Sar Par Haath",        src: "assets/audio/guruvar-tere-sar-par-haath.mp3" },
-        { title: "Guru Vachno Ko Rakhna Sambhal Ke",  src: "assets/audio/guru-vachno-ko-rakhna.mp3" },
-        { title: "Guru Brahma Gurur Vishnu",           src: "assets/audio/guru-brahma-gurur-vishnu.mp3" },
-        { title: "Guru Meri Pooja",                    src: "assets/audio/guru-meri-pooja.mp3" },
-        { title: "Shukriya Tera Aye Guru",             src: "assets/audio/shukriya-tera-aye-guru.mp3" }
+        { title: "Guruvar Tere Sar Par Haath",       q: "Guruvar tere sar par haath rakh do",        fallback: "assets/audio/guruvar-tere-sar-par-haath.mp3" },
+        { title: "Guru Vachno Ko Rakhna Sambhal Ke", q: "Guru vachno ko rakhna sambhal ke",          fallback: "assets/audio/guru-vachno-ko-rakhna.mp3" },
+        { title: "Guru Meri Pooja",                   q: "Guru meri puja guru govinda",               fallback: "assets/audio/guru-meri-pooja.mp3" },
+        { title: "Guru Meri Drishti Mein",            q: "Guru meri drishti mein",                    fallback: "assets/audio/guru-meri-drishti.mp3" },
+        { title: "Shukriya Tera Aye Guru",            q: "Shukriya tera aye guru",                    fallback: "assets/audio/shukriya-tera-aye-guru.mp3" },
+        { title: "Guru Brahma Gurur Vishnu",          q: "Guru brahma guru vishnu guru devo maheshwara", fallback: "assets/audio/guru-brahma-gurur-vishnu.mp3" }
       ];
 
       var audio = document.getElementById('bgMusic');
       var mBtn = document.getElementById('musicBtn');
       var songIdx = 0;
-      var playing = false;        // is audio actually on
-      var failed = 0;             // count of failed tracks this round
+      var playing = false;
+      var failed = 0;
+      var resolved = {};   // index -> playable URL (cached)
+      var busy = false;
 
-      function loadSong(i) {
-        songIdx = (i + SONGS.length) % SONGS.length;
-        audio.src = SONGS[songIdx].src;
+      // Resolve a song to a playable URL (JioSaavn via proxy, else local MP3 fallback).
+      function resolveSong(idx, cb) {
+        if (resolved[idx]) { cb(resolved[idx]); return; }
+        var song = SONGS[idx];
+        function done(url) {
+          resolved[idx] = url || song.fallback || null;
+          cb(resolved[idx]);
+        }
+        fetch('/api/music?action=search&q=' + encodeURIComponent(song.q))
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            var id = d && d.songs && d.songs[0] && d.songs[0].id;
+            done(id ? ('/api/music?action=play&id=' + encodeURIComponent(id) + '&quality=320') : song.fallback);
+          })
+          .catch(function () { done(song.fallback); });
+      }
+
+      function playSong(idx) {
+        busy = true;
+        resolveSong(idx, function (url) {
+          busy = false;
+          if (!url) { skip(true); return; }
+          songIdx = idx;
+          audio.src = url;
+          var p = audio.play();
+          if (p && p.then) p.catch(function () { /* retry on gesture */ });
+        });
+      }
+      function skip(silent) {
+        failed++;
+        if (failed >= SONGS.length * 2) { setBtn(false); return; } // give up
+        playSong((songIdx + 1) % SONGS.length);
       }
       function setBtn(on) {
         playing = on;
@@ -675,46 +709,40 @@
       }
       function startMusic() {
         failed = 0;
-        loadSong(songIdx);
-        var p = audio.play();
-        if (p && p.then) p.then(function(){ setBtn(true); }).catch(function(){ setBtn(false); });
-        else setBtn(!audio.paused);
+        setBtn(true); // optimistic; cleared if it errors
+        playSong(songIdx);
       }
       function stopMusic() {
         audio.pause();
         setBtn(false);
       }
 
-      // Next track when one ends (keeps it going 24x7).
-      audio.addEventListener('ended', function () { loadSong(songIdx + 1); var p = audio.play(); if (p && p.catch) p.catch(function(){}); });
-      // Auto-skip missing/failed tracks.
-      audio.addEventListener('error', function () {
-        failed++;
-        if (failed >= SONGS.length) { setBtn(false); return; }  // no files found
-        loadSong(songIdx + 1);
-        var p = audio.play(); if (p && p.catch) p.catch(function(){});
-      });
+      // 24x7: advance / auto-skip on end and on failure.
+      audio.addEventListener('ended', function () { failed = 0; playSong((songIdx + 1) % SONGS.length); });
       audio.addEventListener('playing', function () { failed = 0; setBtn(true); });
+      audio.addEventListener('error', function () {
+        if (!playing) return;
+        // Try the next song; the previous URL stays cached but will be retried next cycle.
+        setTimeout(function () { skip(true); }, 120);
+      });
 
       audio.volume = 0.5;
-      loadSong(0);
       setBtn(false);
 
       // The single corner button: toggles mute/unmute.
       mBtn.addEventListener('click', function (e) {
         e.stopPropagation();
+        if (busy) return;
         if (playing) stopMusic(); else startMusic();
       });
 
       // Browsers block audio before interaction: start on the first gesture
       // anywhere (so it plays in the background). Then the button mutes.
       function unlock() {
-        if (playing) return;
+        if (playing || busy) return;
         startMusic();
-        if (playing) {
-          document.removeEventListener('pointerdown', unlock, true);
-          document.removeEventListener('keydown', unlock, true);
-        }
+        document.removeEventListener('pointerdown', unlock, true);
+        document.removeEventListener('keydown', unlock, true);
       }
       document.addEventListener('pointerdown', unlock, true);
       document.addEventListener('keydown', unlock, true);
