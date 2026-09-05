@@ -47,8 +47,27 @@ external media.
 
 | Path | What |
 |------|------|
-| `/` | Fullscreen animated CSS banner (silent) |
+| `/` | Fullscreen animated CSS banner with scenes + background music |
+| `/preview/5/` | Candidate build with JioSaavn music + mute/unmute button |
+| `/api/music` | JioSaavn search/play proxy used by the music player |
 | `/api/downloads` | Download horizontal + vertical JPG banners |
+
+## Hosting (Railway / Node)
+
+The same `server.js` serves static files **and** the music API, so it works on
+Railway (and any Node host):
+
+```bash
+npm install        # installs crypto-js
+npm start          # node server.js  (uses process.env.PORT)
+```
+
+- Railway: deploy this repo; the start command is `npm start`
+  (a Node ≥ 18 service). The `/api/music` proxy needs outbound internet.
+- Vercel is also still supported (the static site + `api/music.js` function).
+
+The static `serve` script was replaced by `node server.js` because the JioSaavn
+music proxy needs a server-side runtime.
 
 ## Contributors
 
