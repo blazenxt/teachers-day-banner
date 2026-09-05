@@ -36,7 +36,8 @@ Premium ceremonial gold-and-black theme with:
 
 Candidate builds are previewed before going live under `/preview/<n>/`
 (banner) and `/preview/<n>/devices` (all-devices sheet); the root `/` is only
-updated after approval. The live build is v3 (`/preview/3/`).
+updated after approval. The live build is v4 (`/preview/4/`): 9 Hindi/English
+quotes rotating every 6s, confetti salvo every ~6.5s, scenes every 8s.
 
 All visuals are self-contained in `index.html` (CSS + a tiny vanilla-JS
 particle generator, scene rotator, clock and confetti). No build step, no

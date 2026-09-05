@@ -496,7 +496,15 @@
         { t: "A teacher takes a hand, opens a mind,\nand touches a heart.",
           m: "The best lessons aren't just in books — they are in the care and belief of a teacher." },
         { t: "ज्ञान का दीपक वही जलाता है,\nजो खुद जलकर औरों को राह दिखाता है।",
-          m: "They light the lamp of knowledge — giving of themselves to show others the way." }
+          m: "They light the lamp of knowledge — giving of themselves to show others the way." },
+        { t: "गुरु का ज्ञान अनमोल है,\nजो बाँटे वही सच्चा हीरा है।",
+          m: "A teacher's knowledge is priceless — and the more they share, the more it shines." },
+        { t: "माता-पिता की छाया में पालना,\nगुरु के चरणों में जीवन सँवरना।",
+          m: "We are raised by our parents, but it is at the feet of our teachers that our life is truly shaped." },
+        { t: "अक्षर-अक्षर से रचना हमें,\nशिक्षक ही जीवन की असली बुनियाद हैं।",
+          m: "Teaching us letter by letter, dream by dream — teachers are the true foundation of our lives." },
+        { t: "Teaching is the one profession\nthat creates every other profession.",
+          m: "Every doctor, engineer and artist once sat in a teacher's classroom." }
       ];
       var qText = document.getElementById('qText');
       var qMeaning = document.getElementById('qMeaning');
@@ -525,7 +533,7 @@
       qMeaning.textContent = QUOTES[0].m;
       function startQuotes() {
         stopQuotes();
-        qTimer = setInterval(function () { renderQuote(qIndex + 1); }, 4200);
+        qTimer = setInterval(function () { renderQuote(qIndex + 1); }, 6000);
       }
       function stopQuotes() { if (qTimer) { clearInterval(qTimer); qTimer = null; } }
 
@@ -553,7 +561,7 @@
       function burst(cx, cy) {
         if (reduceMotion) return;
         var small = Math.min(window.innerWidth, window.innerHeight) < 600;
-        var n = small ? 18 : 36;
+        var n = small ? 30 : 62;
         var maxDist = Math.min(window.innerWidth, window.innerHeight) * (small ? 0.5 : 0.42);
         for (var k = 0; k < n; k++) {
           var el = document.createElement('i');
@@ -580,14 +588,23 @@
       function burstCenter() {
         burst(window.innerWidth / 2, window.innerHeight * 0.42);
       }
+      // celebratory salvo: center burst + a second burst from a random spot
+      function celebrate() {
+        burstCenter();
+        setTimeout(function () {
+          burst(window.innerWidth * (0.22 + Math.random() * 0.56),
+                window.innerHeight * (0.3 + Math.random() * 0.35));
+        }, 350);
+      }
       // tap anywhere (except the fullscreen button) for a burst
       document.getElementById('banner').addEventListener('pointerdown', function (e) {
         if (e.target.closest && e.target.closest('.fs-btn')) return;
         burst(e.clientX, e.clientY);
       });
       if (!reduceMotion) {
-        setTimeout(burstCenter, 1600);          // welcome burst
-        setInterval(burstCenter, 12000);        // periodic celebration
+        setTimeout(celebrate, 900);            // opening celebration
+        setTimeout(celebrate, 2200);
+        setInterval(celebrate, 6500);          // frequent periodic celebration
       }
 
       /* ---------- fullscreen ---------- */
