@@ -3,23 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Preview · Teacher's Day Banner</title>
+  <title>Preview Versions · Teacher's Day Banner</title>
+  <meta name="theme-color" content="#000000" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="robots" content="noindex" />
-  <meta http-equiv="refresh" content="0; url=/preview/5/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
   <style>
-    html,body{height:100%;margin:0;background:#000;color:#f0d78c;
-      font-family:Georgia,'Times New Roman',serif;display:grid;place-items:center;text-align:center;}
-    a{color:#e8c547;}
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { min-height:100%; background:#000; }
+    body {
+      font-family:'Cormorant Garamond',Georgia,serif;
+      color:#f0d78c;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 35%, #16100a 0%, #070500 55%, #000 100%);
+      min-height:100vh;
+      display:flex; flex-direction:column; align-items:center;
+      padding: clamp(24px,6vh,64px) 20px 60px;
+    }
+    .frame {
+      position:fixed; inset:clamp(12px,2.2vh,26px) clamp(14px,2.4vw,34px);
+      border:1.5px solid rgba(201,162,39,0.7);
+      pointer-events:none;
+    }
+    .frame::after { content:""; position:absolute; inset:7px; border:1px solid rgba(212,175,55,0.25); }
+
+    header { text-align:center; margin-bottom:8px; z-index:1; }
+    .eyebrow {
+      font-family:'Cinzel',Georgia,serif; font-weight:600;
+      font-size:clamp(0.62rem,1.6vw,0.8rem); letter-spacing:0.4em; text-transform:uppercase;
+      color:rgba(232,197,71,0.8); margin-bottom:18px;
+    }
+    h1 {
+      font-family:'Cinzel',Georgia,serif; font-weight:900;
+      font-size:clamp(1.6rem,4.5vw,3rem); letter-spacing:0.08em; text-transform:uppercase; line-height:1.05;
+      background:linear-gradient(175deg,#fffef5,#fff8d0 10%,#f5e09a 25%,#e8c547 45%,#d4af37 60%,#a07818 85%,#f0d78c);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 22px rgba(212,175,55,0.3));
+    }
+    .sub { margin-top:14px; font-style:italic; font-size:clamp(1rem,2.2vw,1.25rem); color:#d4b85a; }
+
+    .cards {
+      margin-top:clamp(30px,5vh,54px);
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:22px;
+      width:min(920px,94vw);
+      z-index:1;
+    }
+    .card {
+      position:relative;
+      display:flex; flex-direction:column; gap:8px;
+      padding:22px 22px 20px;
+      border-radius:16px;
+      border:1px solid rgba(201,162,39,0.4);
+      background:linear-gradient(160deg, rgba(30,24,10,0.85), rgba(8,6,2,0.92));
+      box-shadow:0 16px 40px rgba(0,0,0,0.55), 0 0 22px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,240,180,0.1);
+      text-decoration:none; color:inherit;
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover {
+      transform:translateY(-4px) scale(1.01);
+      border-color:rgba(232,197,71,0.8);
+      box-shadow:0 22px 50px rgba(0,0,0,0.6), 0 0 34px rgba(212,175,55,0.25), inset 0 1px 0 rgba(255,240,180,0.16);
+    }
+    .v {
+      font-family:'Cinzel',Georgia,serif; font-weight:800;
+      font-size:1.5rem; letter-spacing:0.08em;
+      background:linear-gradient(180deg,#fff3c4,#e8c547 55%,#b8922a);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .badge-latest {
+      position:absolute; top:14px; right:14px;
+      font-family:'Cinzel',Georgia,serif; font-size:0.58rem; font-weight:700;
+      letter-spacing:0.16em; text-transform:uppercase; color:#1a1205;
+      background:linear-gradient(180deg,#f5e09a,#c9a227);
+      padding:4px 10px; border-radius:999px;
+      box-shadow:0 0 12px rgba(232,197,71,0.5);
+    }
+    .desc { font-size:1.05rem; line-height:1.4; color:#e6cb72; min-height:2.9em; }
+    .links { display:flex; gap:10px; margin-top:8px; }
+    .links a {
+      font-family:'Cinzel',Georgia,serif; font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
+      text-transform:uppercase; text-decoration:none; color:#f0d78c;
+      padding:9px 16px; border-radius:999px;
+      border:1px solid rgba(201,162,39,0.55);
+      background:rgba(212,175,55,0.08);
+      transition:background .2s ease, box-shadow .2s ease;
+    }
+    .links a:hover { background:rgba(212,175,55,0.2); box-shadow:0 0 14px rgba(212,175,55,0.3); }
+    footer { margin-top:clamp(34px,5vh,56px); text-align:center; z-index:1; }
+    footer a { color:#e8c547; text-decoration:none; font-size:1.05rem; border-bottom:1px solid rgba(232,197,71,0.4); }
+    footer a:hover { color:#fff3c4; }
   </style>
 </head>
 <body>
-  <div>
-    <p style="letter-spacing:.2em;text-transform:uppercase;font-size:.8rem;opacity:.7">Loading latest preview…</p>
-    <p style="margin-top:14px;font-size:1.1rem">
-      <a href="/preview/5/">Go to Preview 5 →</a>
-    </p>
-  </div>
-  <script>location.replace('/preview/5/');</script>
+  <div class="frame" aria-hidden="true"></div>
+
+  <header>
+    <div class="eyebrow">Banner Preview</div>
+    <h1>Preview Versions</h1>
+    <p class="sub">Choose a version to open. Review the latest before it goes live on <code>/</code>.</p>
+  </header>
+
+  <main class="cards">
+    <div class="card" data-go="/preview/5/" style="cursor:pointer" tabindex="0">
+      <span class="badge-latest">Latest</span>
+      <div class="v">Version 5</div>
+      <p class="desc">Final silent build: rotating scenes, 9 Hindi/English quotes, confetti, live clock, celebration wording, favicon. No music.</p>
+      <span class="links">
+        <a href="/preview/5/">Open →</a>
+        <a href="/preview/5/devices">Devices</a>
+      </span>
+    </div>
+
+    <div class="card" data-go="/preview/4/" style="cursor:pointer" tabindex="0">
+      <div class="v">Version 4</div>
+      <p class="desc">6-second quote rotation, richer/frequent confetti, extra Hindi shayari (9 quotes total).</p>
+      <span class="links">
+        <a href="/preview/4/">Open →</a>
+        <a href="/preview/4/devices">Devices</a>
+      </span>
+    </div>
+
+    <div class="card" data-go="/preview/3/" style="cursor:pointer" tabindex="0">
+      <div class="v">Version 3</div>
+      <p class="desc">Rotating scenes introduced: hero, Hindi quotes carousel, and a no-name "Thank You Teachers" finale.</p>
+      <span class="links">
+        <a href="/preview/3/">Open →</a>
+        <a href="/preview/3/devices">Devices</a>
+      </span>
+    </div>
+
+    <div class="card" data-go="/preview/2/" style="cursor:pointer" tabindex="0">
+      <div class="v">Version 2</div>
+      <p class="desc">First scenes build with confetti, live clock, and a teachers honor-roll scene (names later removed).</p>
+      <span class="links">
+        <a href="/preview/2/">Open →</a>
+        <a href="/preview/2/devices">Devices</a>
+      </span>
+    </div>
+
+    <div class="card" data-go="/preview/1/" style="cursor:pointer" tabindex="0">
+      <div class="v">Version 1</div>
+      <p class="desc">Smooth low-end Android animation pass and the per-device auto-fit font scaling.</p>
+      <span class="links">
+        <a href="/preview/1/">Open →</a>
+        <a href="/preview/1/devices">Devices</a>
+      </span>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">← Back to live site</a>
+  </footer>
+<script>
+  document.querySelectorAll('.card').forEach(function(card){
+    function go(e){ if(e.target.closest('a')) return; window.location=card.getAttribute('data-go'); }
+    card.addEventListener('click', go);
+    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(e);} });
+  });
+</script>
 </body>
 </html>
