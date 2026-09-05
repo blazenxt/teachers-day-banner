@@ -133,16 +133,6 @@
     .tl{top:-2px;left:-2px;} .tr{top:-2px;right:-2px;transform:scaleX(-1);}
     .bl{bottom:-2px;left:-2px;transform:scaleY(-1);} .br{bottom:-2px;right:-2px;transform:scale(-1);}
 
-    /* Live clock */
-    .clock {
-      position: absolute; top: clamp(26px, 3.6vh, 44px); left: 50%;
-      transform: translateX(-50%); z-index: 6; text-align: center; pointer-events: none;
-      font-family: 'Cinzel', Georgia, serif; color: #f0d78c; line-height: 1.15;
-      text-shadow: 0 0 12px rgba(212,175,55,0.45);
-    }
-    .clock .c-time { font-size: calc(20 * var(--u)); font-weight: 700; letter-spacing: 0.14em; }
-    .clock .c-date { font-size: calc(12 * var(--u)); letter-spacing: 0.24em; color: rgba(232,197,71,0.75); margin-top: 2px; text-transform: uppercase; }
-
     /* ===== Rotating scenes ===== */
     .stage { position: relative; z-index: 6; display: grid; place-items: center; width: 100%; }
     .scenes { position: relative; width: calc(1120 * var(--u)); max-width: 96vw; height: calc(670 * var(--u)); }
@@ -155,6 +145,12 @@
       will-change: opacity, transform;
     }
     .scene.active { opacity: 1; visibility: visible; transform: translateY(0); z-index: 2; }
+
+    /* Hero content wrapper — center everything (fixes off-center bottom-mark) */
+    .content {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; width: 100%; height: 100%;
+    }
 
     @keyframes rise-in { from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
 
@@ -232,8 +228,9 @@
     .date-badge .spark { position:static; width:auto; height:auto; border-radius:0; background:transparent; box-shadow:none;
       animation:none; opacity:1; font-size:0.7em; color:var(--gold-3); text-shadow:0 0 8px rgba(255,220,120,0.85); }
 
-    .bottom-mark { margin-top: calc(22 * var(--u)); width: calc(160 * var(--u)); height: calc(14 * var(--u)); position:relative; opacity:0.9; }
-    .bottom-mark svg { width:100%; height:100%; }
+    .bottom-mark { margin-top: calc(22 * var(--u)); margin-left:auto; margin-right:auto;
+      width: calc(160 * var(--u)); height: calc(14 * var(--u)); position:relative; opacity:0.9; flex:none; }
+    .bottom-mark svg { width:100%; height:100%; display:block; }
     .signoff { margin-top: calc(18 * var(--u)); font-family:'Great Vibes',cursive; font-size: calc(28 * var(--u));
       color: rgba(232,197,71,0.85); letter-spacing:0.04em; text-shadow:0 0 12px rgba(212,175,55,0.3); animation: fade-down 1s ease 0.9s backwards; }
     @keyframes fade-down { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
@@ -298,7 +295,6 @@
     .fs-btn.is-full .icon-exit { display:block; }
 
     @media (max-width:480px) { .fs-btn{width:44px;height:44px;} .fs-btn svg{width:20px;height:20px;} }
-    @media (max-height:430px) { .clock .c-date{display:none;} }
 
     @media (prefers-reduced-motion: reduce) {
       *,*::before,*::after { animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
@@ -346,12 +342,6 @@
       <div class="corner br"><svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 88 C6 32 32 6 88 6" stroke="url(#cg)" stroke-width="2"/><path d="M6 68 C6 28 28 6 68 6" stroke="#d4af37" stroke-width="1" opacity="0.45"/><path d="M12 30 C22 8 44 6 48 24 C52 40 28 44 22 30 C18 20 30 16 34 26" stroke="#e8c547" stroke-width="1.5"/><path d="M8 52 C14 40 30 38 36 48 C28 56 12 58 8 52Z" fill="url(#cg)" opacity="0.9"/><circle cx="8" cy="8" r="2.8" fill="#f5e09a"/><path d="M6 88 Q6 78 16 78" stroke="#c9a227" stroke-width="1.2" opacity="0.55"/><circle cx="22" cy="10" r="1.2" fill="#e8c547" opacity="0.8"/><circle cx="10" cy="22" r="1.2" fill="#e8c547" opacity="0.8"/></svg></div>
     </div>
 
-    <!-- Live clock -->
-    <div class="clock" id="clock" aria-hidden="true">
-      <div class="c-time" id="clockTime">--:--</div>
-      <div class="c-date" id="clockDate">--</div>
-    </div>
-
     <div class="stage">
       <div class="scenes" id="scenes">
 
@@ -392,8 +382,8 @@
             <div class="divider" aria-hidden="true"><span class="line"></span><span class="jewel"></span><span class="line"></span></div>
 
             <div class="lines">
-              <span class="primary">Special Celebrations at Coaching</span>
-              <span class="secondary">Thank You Teachers — For Your Guidance</span>
+              <span class="primary">Celebrating Our Teachers Today</span>
+              <span class="secondary">Thank You for Guiding &amp; Inspiring Us</span>
             </div>
 
             <div class="icons" aria-hidden="true">
@@ -448,7 +438,6 @@
       <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
       <svg class="icon-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
     </button>
-
   </div>
 
   <script>
@@ -474,17 +463,6 @@
           layer.appendChild(p);
         }
       }
-
-      /* ---------- live clock ---------- */
-      var clockTime = document.getElementById('clockTime');
-      var clockDate = document.getElementById('clockDate');
-      function tickClock() {
-        var now = new Date();
-        clockTime.textContent = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-        clockDate.textContent = now.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
-      }
-      tickClock();
-      setInterval(tickClock, 1000);
 
       /* ---------- quotes carousel ---------- */
       // EDIT freely: Hindi/English quote in {t} (use \n for a line break), meaning in {m}
